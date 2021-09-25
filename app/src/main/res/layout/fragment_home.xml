@@ -15,8 +15,26 @@
             android:src="@drawable/img_default_4_x_1"
             android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/home_btn_setting_iv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/btn_main_setting"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             />
+
+        <ImageView
+            android:id="@+id/home_btn_ticket_iv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/btn_main_ticket"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/home_btn_setting_iv"/>
+
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
