@@ -187,7 +187,7 @@
             app:layout_constraintBottom_toBottomOf="@id/home_album_new_tv"
             />
         <TextView
-            android:id="@+id/home_album_menu1_tv"
+            android:id="@+id/home_album_total_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="종합"
@@ -199,26 +199,26 @@
             app:layout_constraintBottom_toBottomOf="@id/home_album_new_tv"
             />
         <TextView
-            android:id="@+id/home_album_menu2_tv"
+            android:id="@+id/home_album_domestic_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="국내"
             android:textColor="#353535"
             android:textSize="16sp"
             app:layout_constraintTop_toTopOf="@id/home_album_new_tv"
-            app:layout_constraintStart_toEndOf="@id/home_album_menu1_tv"
+            app:layout_constraintStart_toEndOf="@id/home_album_total_tv"
             app:layout_constraintBottom_toBottomOf="@id/home_album_new_tv"
-            app:layout_constraintEnd_toStartOf="@id/home_album_menu3_tv"
+            app:layout_constraintEnd_toStartOf="@id/home_album_oversea_tv"
             />
         <TextView
-            android:id="@+id/home_album_menu3_tv"
+            android:id="@+id/home_album_oversea_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="해외"
             android:textColor="#353535"
             android:textSize="16sp"
             app:layout_constraintTop_toTopOf="@id/home_album_new_tv"
-            app:layout_constraintStart_toEndOf="@id/home_album_menu2_tv"
+            app:layout_constraintStart_toEndOf="@id/home_album_domestic_tv"
             app:layout_constraintBottom_toBottomOf="@id/home_album_new_tv"
             app:layout_constraintEnd_toEndOf="parent"
             />
@@ -248,7 +248,7 @@
         <ImageView
             android:layout_width="140dp"
             android:layout_height="140dp"
-            android:src="@drawable/img_album_new"
+            android:src="@drawable/drake"
             />
         </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
@@ -263,7 +263,7 @@
                 <ImageView
                     android:layout_width="140dp"
                     android:layout_height="140dp"
-                    android:src="@drawable/img_album_new"
+                    android:src="@drawable/drake"
                     />
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
@@ -278,7 +278,7 @@
                 <ImageView
                     android:layout_width="140dp"
                     android:layout_height="140dp"
-                    android:src="@drawable/img_album_new"
+                    android:src="@drawable/drake"
                     />
             </androidx.cardview.widget.CardView>
         </LinearLayout>
