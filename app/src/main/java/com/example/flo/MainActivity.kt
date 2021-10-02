@@ -1,6 +1,11 @@
 package com.example.flo
 
+import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.view.View
+import android.view.WindowInsetsController
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.example.flo.databinding.ActivityMainBinding
 
@@ -12,6 +17,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initNavigation()
+
+        binding.mainPlayerLayout.setOnClickListener {
+            startActivity(Intent(this,SongActivity::class.java))
+        }
+
 
         binding.mainBnv.setOnItemSelectedListener {
             when (it.itemId) {
