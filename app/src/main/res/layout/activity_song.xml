@@ -103,7 +103,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/song_album_cover_iv"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="280dp"
         android:layout_marginTop="30dp"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
@@ -136,7 +136,7 @@
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:src="@drawable/ic_my_like_off"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:layout_marginStart="100dp"
         app:layout_constraintTop_toBottomOf="@id/song_lyrics_tv"
         app:layout_constraintStart_toStartOf="parent"
@@ -148,7 +148,7 @@
         android:layout_height="40dp"
         android:src="@drawable/btn_player_unlike_off"
         android:layout_marginEnd="100dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         app:layout_constraintTop_toBottomOf="@id/song_lyrics_tv"
         app:layout_constraintStart_toEndOf="@id/song_like"
         app:layout_constraintEnd_toEndOf="parent"
@@ -160,7 +160,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         app:indicatorColor="#9E9E9E"
         app:layout_constraintTop_toBottomOf="@id/song_like"
         >
@@ -210,28 +210,33 @@
         android:gravity="center"
         >
         <ImageView
+            android:id="@+id/song_btn_previous_iv"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/nugu_btn_skip_previous_32"
             />
         <ImageView
+            android:id="@+id/song_btn_play_iv"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/nugu_btn_play_32"
             android:visibility="visible"
             />
         <ImageView
+            android:id="@+id/song_btn_pause_iv"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/nugu_btn_pause_32"
             android:visibility="gone"
             />
         <ImageView
+            android:id="@+id/song_btn_next_iv"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/nugu_btn_skip_next_32"
             />
     </LinearLayout>
+
     <ImageView
         android:id="@+id/song_random_iv"
         android:layout_width="60dp"
@@ -240,10 +245,44 @@
         android:layout_marginTop="30dp"
         app:layout_constraintTop_toBottomOf="@id/song_progress_lpi"
         app:layout_constraintStart_toEndOf="@id/song_btn_play3_ll"
-        app:layout_constraintEnd_toEndOf="parent
-"
+        app:layout_constraintEnd_toEndOf="parent"
         />
 
 
+<!--    하단 버튼들 -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/song_btn_play3_ll"
+        android:gravity="bottom"
+        >
+    <ImageView
+        android:id="@+id/song_btn_insta_iv"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="10dp"
+        android:src="@drawable/btn_actionbar_instagram"
+        android:layout_weight="1"
+        />
+    <ImageView
+        android:id="@+id/song_btn_similar_iv"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        android:src="@drawable/btn_player_related"
+        android:layout_weight="1"
+        />
+    <ImageView
+        android:id="@+id/song_btn_list_iv"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/btn_player_go_list"
+        android:layout_marginEnd="10dp"
+        android:layout_weight="1"
+        />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
