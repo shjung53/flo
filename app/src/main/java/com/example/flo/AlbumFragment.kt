@@ -5,25 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.flo.databinding.FragmentHomeBinding
+import com.example.flo.databinding.FragmentAlbumBinding
 
+class AlbumFragment : Fragment() {
 
-class HomeFragment : Fragment() {
-    lateinit var binding: FragmentHomeBinding
+    lateinit var binding: FragmentAlbumBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
-        binding.homeAlbumNew1Ll.setOnClickListener {
-            (context as MainActivity)
-        }
-
-
+    ): View? {
+        binding = FragmentAlbumBinding.inflate(inflater, container, false)
         return binding.root
+
+
+
     }
-
-
 }
