@@ -29,24 +29,28 @@ class SongActivity : AppCompatActivity() {
 
 
         if(intent.hasExtra("playing")){
-            setPlayerStatus(true)
+           binding.songBtnPlayIv.setOnClickListener {
+               setPlayerStatus(false)
+           }
         }
         if(intent.hasExtra("pause")){
-            setPlayerStatus(false)
+           binding.songBtnPauseIv.setOnClickListener {
+               setPlayerStatus(true)
+           }
         }
 
 
         binding.songBtnDownIb.setOnClickListener {
-            finish()
+          onPause()
         }
         binding.songBtnPlayIv.setOnClickListener {
             val intent = Intent (this, MainActivity::class.java)
-            intent.putExtra(playing, playing)
+            intent.putExtra("playing", playing)
             setPlayerStatus(false)
         }
         binding.songBtnPauseIv.setOnClickListener {
             val intent = Intent (this, MainActivity::class.java)
-            intent.putExtra(pause, pause)
+            intent.putExtra("pause", pause)
             setPlayerStatus(true)
         }
 

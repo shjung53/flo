@@ -39,21 +39,25 @@ class MainActivity : AppCompatActivity() {
 
 
         if(intent.hasExtra("playing")){
-            setMiniPlayerStatus(false)
+            binding.mainMiniplayerBtn.setOnClickListener {
+                setMiniPlayerStatus(false)
+            }
         }
         if(intent.hasExtra("pause")){
+            binding.mainPauseBtn.setOnClickListener {
             setMiniPlayerStatus(true)
+            }
         }
 
 
         binding.mainMiniplayerBtn.setOnClickListener {
             val intent = Intent (this, SongActivity::class.java)
-            intent.putExtra(playing, playing)
+            intent.putExtra("playing", playing)
             setMiniPlayerStatus(false)
         }
         binding.mainPauseBtn.setOnClickListener {
             val intent = Intent (this, SongActivity::class.java)
-            intent.putExtra(pause, pause)
+            intent.putExtra("pause", pause)
             setMiniPlayerStatus(true)
         }
         val intent = Intent(this, SongActivity::class.java)
