@@ -39,10 +39,10 @@ class MainActivity : AppCompatActivity() {
 
 
         if(intent.hasExtra("playing")){
-            setMiniPlayerStatus(isPlaying = false)
+            setMiniPlayerStatus(false)
         }
         if(intent.hasExtra("pause")){
-            setMiniPlayerStatus(isPlaying = true)
+            setMiniPlayerStatus(true)
         }
 
 

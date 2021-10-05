@@ -29,10 +29,10 @@ class SongActivity : AppCompatActivity() {
 
 
         if(intent.hasExtra("playing")){
-            setPlayerStatus(isPlaying = true)
+            setPlayerStatus(true)
         }
         if(intent.hasExtra("pause")){
-            setPlayerStatus(isPlaying = false)
+            setPlayerStatus(false)
         }
 
 
