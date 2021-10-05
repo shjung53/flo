@@ -15,10 +15,16 @@ class AlbumFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentAlbumBinding.inflate(inflater, container, false)
-        return binding.root
 
+        binding.albumBtnBackIb.setOnClickListener {
+            (context as MainActivity).supportFragmentManager.beginTransaction()
+                .replace(R.id.main_frm, HomeFragment())
+                .commitAllowingStateLoss()
+        }
+
+        return binding.root
 
 
     }

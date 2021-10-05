@@ -1,5 +1,7 @@
 package com.example.flo
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.view.View
@@ -15,16 +17,41 @@ class SongActivity : AppCompatActivity() {
         binding = ActivitySongBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        if(intent.hasExtra("title") && intent.hasExtra("singer")){
+            binding.songUpperTitleTv.text = intent.getStringExtra("title")
+            binding.songUpperSingerTv.text = intent.getStringExtra("singer")
+        }
+
+
+//        플레이 변수
+        val playing = "playing"
+        val pause = "pause"
+
+
+        if(intent.hasExtra("playing")){
+            setPlayerStatus(isPlaying = true)
+        }
+        if(intent.hasExtra("pause")){
+            setPlayerStatus(isPlaying = false)
+        }
+
+
         binding.songBtnDownIb.setOnClickListener {
             finish()
         }
         binding.songBtnPlayIv.setOnClickListener {
+            val intent = Intent (this, MainActivity::class.java)
+            intent.putExtra(playing, playing)
             setPlayerStatus(false)
         }
         binding.songBtnPauseIv.setOnClickListener {
+            val intent = Intent (this, MainActivity::class.java)
+            intent.putExtra(pause, pause)
             setPlayerStatus(true)
         }
+
     }
+
 
 
         fun setPlayerStatus(isPlaying : Boolean){
@@ -36,6 +63,7 @@ class SongActivity : AppCompatActivity() {
                 binding.songBtnPauseIv.visibility = View.VISIBLE
             }
         }
+
 
 
     }

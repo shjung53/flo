@@ -3,6 +3,7 @@ package com.example.flo
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowInsetsController
 import android.view.WindowManager
@@ -18,9 +19,48 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         initNavigation()
 
+        val song = Song(binding.mainMiniPlayerTitleTv.text.toString(), binding.mainMiniPlayerSingerTv.text.toString())
+
         binding.mainPlayerLayout.setOnClickListener {
-            startActivity(Intent(this,SongActivity::class.java))
+            val intent = Intent(this, SongActivity::class.java)
+            intent.putExtra("title", song.title)
+            intent.putExtra("singer", song.singer)
+
+            startActivity(intent)
         }
+
+
+//        플레이 변수
+        val playing = "playing"
+        val pause = "pause"
+
+
+        Log.d("Log test", song.title + song.singer)
+
+
+        if(intent.hasExtra("playing")){
+            setMiniPlayerStatus(isPlaying = false)
+        }
+        if(intent.hasExtra("pause")){
+            setMiniPlayerStatus(isPlaying = true)
+        }
+
+
+        binding.mainMiniplayerBtn.setOnClickListener {
+            val intent = Intent (this, SongActivity::class.java)
+            intent.putExtra(playing, playing)
+            setMiniPlayerStatus(false)
+        }
+        binding.mainPauseBtn.setOnClickListener {
+            val intent = Intent (this, SongActivity::class.java)
+            intent.putExtra(pause, pause)
+            setMiniPlayerStatus(true)
+        }
+        val intent = Intent(this, SongActivity::class.java)
+
+
+
+
 
 
         binding.mainBnv.setOnItemSelectedListener {
@@ -65,5 +105,23 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    fun setMiniPlayerStatus(isPlaying : Boolean){
+        if(isPlaying){
+            binding.mainMiniplayerBtn.visibility = View.VISIBLE
+            binding.mainPauseBtn.visibility = View.GONE
+        }else{
+            binding.mainMiniplayerBtn.visibility = View.GONE
+            binding.mainPauseBtn.visibility = View.VISIBLE
+        }
+    }
+
+
+
+
+
+
 }
+
+
+
 
