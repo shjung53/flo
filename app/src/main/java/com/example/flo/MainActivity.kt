@@ -30,35 +30,30 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-//        플레이 변수
-        val playing = "playing"
-        val pause = "pause"
 
 
         Log.d("Log test", song.title + song.singer)
 
 
         if(intent.hasExtra("playing")){
-            binding.mainMiniplayerBtn.setOnClickListener {
                 setMiniPlayerStatus(false)
-            }
         }
         if(intent.hasExtra("pause")){
-            binding.mainPauseBtn.setOnClickListener {
             setMiniPlayerStatus(true)
-            }
         }
 
 
         binding.mainMiniplayerBtn.setOnClickListener {
             val intent = Intent (this, SongActivity::class.java)
-            intent.putExtra("playing", playing)
+            intent.putExtra("playing", "playing")
             setMiniPlayerStatus(false)
+            startActivity(intent)
         }
         binding.mainPauseBtn.setOnClickListener {
             val intent = Intent (this, SongActivity::class.java)
-            intent.putExtra("pause", pause)
+            intent.putExtra("pause", "pause")
             setMiniPlayerStatus(true)
+            startActivity(intent)
         }
         val intent = Intent(this, SongActivity::class.java)
 

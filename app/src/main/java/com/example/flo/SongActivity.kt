@@ -22,36 +22,58 @@ class SongActivity : AppCompatActivity() {
             binding.songUpperSingerTv.text = intent.getStringExtra("singer")
         }
 
+//반복재생 설정
+        binding.songBtnRepeatOffIv.setOnClickListener {
+            binding.songBtnRepeatOffIv.visibility = View.GONE
+            binding.songBtnRepeatOnIv.visibility = View.VISIBLE
+        }
+        binding.songBtnRepeatOnIv.setOnClickListener {
+            binding.songBtnRepeatOnIv.visibility = View.GONE
+            binding.songBtnRepeatOneIv.visibility = View.VISIBLE
+        }
+        binding.songBtnRepeatOneIv.setOnClickListener {
+            binding.songBtnRepeatOneIv.visibility = View.GONE
+            binding.songBtnRepeatListIv.visibility = View.VISIBLE
+        }
+        binding.songBtnRepeatListIv.setOnClickListener {
+            binding.songBtnRepeatListIv.visibility = View.GONE
+            binding.songBtnRepeatOffIv.visibility =View.VISIBLE
+        }
 
-//        플레이 변수
-        val playing = "playing"
-        val pause = "pause"
+//랜덤재생 설정
+        binding.songRandomOffIv.setOnClickListener {
+            binding.songRandomOffIv.visibility = View.GONE
+            binding.songRandomOnIv.visibility = View.VISIBLE
+        }
+        binding.songRandomOnIv.setOnClickListener {
+            binding.songRandomOnIv.visibility = View.GONE
+            binding.songRandomOffIv.visibility = View.VISIBLE
+        }
 
 
+
+//        미니플레이어 연동
         if(intent.hasExtra("playing")){
-           binding.songBtnPlayIv.setOnClickListener {
                setPlayerStatus(false)
-           }
         }
         if(intent.hasExtra("pause")){
-           binding.songBtnPauseIv.setOnClickListener {
                setPlayerStatus(true)
-           }
         }
 
-
         binding.songBtnDownIb.setOnClickListener {
-          onPause()
+          onBackPressed()
         }
         binding.songBtnPlayIv.setOnClickListener {
             val intent = Intent (this, MainActivity::class.java)
-            intent.putExtra("playing", playing)
+            intent.putExtra("playing", "playing")
             setPlayerStatus(false)
+            startActivity(intent)
         }
         binding.songBtnPauseIv.setOnClickListener {
             val intent = Intent (this, MainActivity::class.java)
-            intent.putExtra("pause", pause)
+            intent.putExtra("pause", "pause")
             setPlayerStatus(true)
+
         }
 
     }
