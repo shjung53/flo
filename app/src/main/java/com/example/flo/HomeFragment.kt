@@ -23,6 +23,12 @@ class HomeFragment : Fragment() {
                 .commitAllowingStateLoss()
         }
 
+        val bannerAdapter = BannerViewPagerAdapter(this)
+
+        bannerAdapter.addFragment(BannerFragment())
+
+        binding.homeBannerVp.adapter = bannerAdapter
+
 
         return binding.root
     }
