@@ -7,10 +7,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.flo.databinding.FragmentAlbumBinding
+import com.google.android.material.tabs.TabLayoutMediator
 
 class AlbumFragment : Fragment() {
 
     lateinit var binding: FragmentAlbumBinding
+
+    val information = arrayListOf("수록곡", "상세정보", "영상")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,15 +28,16 @@ class AlbumFragment : Fragment() {
                 .commitAllowingStateLoss()
         }
 
-//        토스트메세지
-//        binding.albumBtnSongPlayIv.setOnClickListener {
-//            var tMessage = Toast.makeText(requireActivity(), "한곡이 재생목록에 담겼습니다\n중복곡은 제외됩니다", Toast.LENGTH_SHORT)
-//                tMessage.show()
-//        }
 
 
 
 
+        val albumAdapter = AlbumViewPagerAdapter(this)
+        binding.albumAlbumInfoVp.adapter = albumAdapter
+        TabLayoutMediator(binding.albumInfoTl, binding.albumAlbumInfoVp){
+            tab, position ->
+            tab.text = information[position]
+        }.attach()
 
 
         return binding.root
