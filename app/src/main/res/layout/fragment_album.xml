@@ -112,24 +112,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/album_cover_cv"
         app:tabIndicatorColor="#3F3FFF"
         app:tabIndicatorFullWidth="false"
-        app:tabSelectedTextColor="#3F3FFF"/>
+        app:tabSelectedTextColor="#3F3FFF"
+        />
 
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/album_albumInfo_vp"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/album_info_tl"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/album_info_tl"
         app:layout_constraintBottom_toBottomOf="parent"
         />
+
 
 
 
