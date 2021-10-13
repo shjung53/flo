@@ -6,11 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.flo.databinding.FragmentLockerBinding
+import com.google.android.material.tabs.TabLayoutMediator
 
 
 class LockerFragment : Fragment() {
 
     lateinit var binding: FragmentLockerBinding
+
+    val menu = arrayListOf("저장한 곡", "음악파일")
 
 
     override fun onCreateView(
@@ -19,8 +22,17 @@ class LockerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLockerBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
+
+        val lockerAdapter = LockerViewPagerAdapter(this)
+        binding.lockerMenuVp.adapter = lockerAdapter
+        TabLayoutMediator(binding.lockerMenuTl, binding.lockerMenuVp){
+            tab, position ->
+            tab.text = menu[position]
+        }.attach()
+
+        return binding.root
+
+    }
 
 }
