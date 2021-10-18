@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:scrollbars="none"
-    android:nestedScrollingEnabled="false"
     >
 
 <androidx.constraintlayout.widget.ConstraintLayout
