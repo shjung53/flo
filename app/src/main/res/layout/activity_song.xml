@@ -135,11 +135,12 @@
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:src="@drawable/ic_my_like_off"
-        android:layout_marginTop="15dp"
         android:layout_marginStart="100dp"
         app:layout_constraintTop_toBottomOf="@id/song_lyrics_tv"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/song_unlike_iv"
+        app:layout_constraintBottom_toTopOf="@id/song_progress_sb"
+
         />
     <ImageView
         android:id="@+id/song_unlike_iv"
@@ -147,43 +148,53 @@
         android:layout_height="40dp"
         android:src="@drawable/btn_player_unlike_off"
         android:layout_marginEnd="100dp"
-        android:layout_marginTop="15dp"
+
         app:layout_constraintTop_toBottomOf="@id/song_lyrics_tv"
         app:layout_constraintStart_toEndOf="@id/song_like"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/song_progress_sb"
         />
 
 <!--    노래 진행 표시줄-->
-    <com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id="@+id/song_progress_lpi"
+    <SeekBar
+        android:id="@+id/song_progress_sb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="20dp"
-        app:indicatorColor="#9E9E9E"
+        android:background="@null"
+        android:progressBackgroundTint="@color/song_player"
+        android:progressTint="@color/song_player"
+        android:thumb="@color/transparent"
+        android:progress="0"
+        android:max="1000"
         app:layout_constraintTop_toBottomOf="@id/song_like"
-        >
-    </com.google.android.material.progressindicator.LinearProgressIndicator>
+        app:layout_constraintBottom_toTopOf="@id/song_time_start_tv"
+        />
+
     <TextView
+        android:id="@+id/song_time_start_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="00:00"
         android:textSize="12sp"
         android:textColor="#3F3FFF"
         android:layout_marginStart="15dp"
-        app:layout_constraintTop_toBottomOf="@id/song_progress_lpi"
+        app:layout_constraintTop_toBottomOf="@id/song_progress_sb"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/song_btn_repeat_off_iv"
         >
     </TextView>
     <TextView
+        android:id="@+id/song_time_end_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="01:00"
+        android:text="00:00"
         android:textSize="12sp"
         android:textColor="#9E9E9E"
         android:layout_marginEnd="15dp"
-        app:layout_constraintTop_toBottomOf="@id/song_progress_lpi"
+        app:layout_constraintTop_toBottomOf="@id/song_progress_sb"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/song_btn_repeat_off_iv"
         >
     </TextView>
 
@@ -195,8 +206,9 @@
         android:src="@drawable/nugu_btn_repeat_inactive"
         android:layout_marginTop="20dp"
         android:layout_marginStart="15dp"
-        app:layout_constraintTop_toBottomOf="@id/song_progress_lpi"
+        app:layout_constraintTop_toBottomOf="@id/song_progress_sb"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/song_btn_bottom_ll"
         android:visibility="visible"
         />
     <ImageView
@@ -206,7 +218,7 @@
         android:src="@drawable/btn_playlist_repeat_on"
         android:layout_marginTop="20dp"
         android:layout_marginStart="15dp"
-        app:layout_constraintTop_toBottomOf="@id/song_progress_lpi"
+        app:layout_constraintTop_toBottomOf="@id/song_progress_sb"
         app:layout_constraintStart_toStartOf="parent"
         android:visibility="gone"
         />
@@ -217,7 +229,7 @@
         android:src="@drawable/btn_playlist_repeat_on1"
         android:layout_marginTop="20dp"
         android:layout_marginStart="15dp"
-        app:layout_constraintTop_toBottomOf="@id/song_progress_lpi"
+        app:layout_constraintTop_toBottomOf="@id/song_progress_sb"
         app:layout_constraintStart_toStartOf="parent"
         android:visibility="gone"
         />
@@ -228,7 +240,7 @@
         android:src="@drawable/btn_playlist_repeat_playlist"
         android:layout_marginTop="20dp"
         android:layout_marginStart="15dp"
-        app:layout_constraintTop_toBottomOf="@id/song_progress_lpi"
+        app:layout_constraintTop_toBottomOf="@id/song_progress_sb"
         app:layout_constraintStart_toStartOf="parent"
         android:visibility="gone"
         />
@@ -237,9 +249,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/song_progress_lpi"
+        app:layout_constraintTop_toBottomOf="@id/song_progress_sb"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/song_btn_bottom_ll"
         android:gravity="center"
         >
         <ImageView
@@ -276,9 +289,10 @@
         android:layout_height="60dp"
         android:src="@drawable/nugu_btn_random_inactive"
         android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/song_progress_lpi"
+        app:layout_constraintTop_toBottomOf="@id/song_progress_sb"
         app:layout_constraintStart_toEndOf="@id/song_btn_play3_ll"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/song_btn_bottom_ll"
         android:visibility="visible"
         />
     <ImageView
@@ -287,9 +301,10 @@
         android:layout_height="60dp"
         android:src="@drawable/btn_playlist_random_on"
         android:layout_marginTop="30dp"
-        app:layout_constraintTop_toBottomOf="@id/song_progress_lpi"
+        app:layout_constraintTop_toBottomOf="@id/song_progress_sb"
         app:layout_constraintStart_toEndOf="@id/song_btn_play3_ll"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/song_btn_bottom_ll"
         android:visibility="gone"
         />
 
@@ -297,6 +312,7 @@
 <!--    하단 버튼들 -->
 
     <LinearLayout
+        android:id="@+id/song_btn_bottom_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

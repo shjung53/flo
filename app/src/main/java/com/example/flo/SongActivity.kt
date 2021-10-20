@@ -3,6 +3,8 @@ package com.example.flo
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.os.PersistableBundle
 import android.view.View
 import android.view.WindowManager
@@ -11,16 +13,25 @@ import com.example.flo.databinding.ActivitySongBinding
 
 class SongActivity : AppCompatActivity() {
 
+
+    private lateinit var player : Player
+    private val song : Song = Song()
+    private val handler = Handler(Looper.getMainLooper())
+
+
     lateinit var binding : ActivitySongBinding
     override fun onCreate(savedInstanceState: Bundle?,) {
         super.onCreate(savedInstanceState)
         binding = ActivitySongBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if(intent.hasExtra("title") && intent.hasExtra("singer")){
-            binding.songUpperTitleTv.text = intent.getStringExtra("title")
-            binding.songUpperSingerTv.text = intent.getStringExtra("singer")
-        }
+        initSong()
+        player = Player(song.playTime,song.isPlaying)
+        player.start()
+
+
+//        노래 렌더링
+
 
 //반복재생 설정
         binding.songBtnRepeatOffIv.setOnClickListener {
@@ -52,30 +63,41 @@ class SongActivity : AppCompatActivity() {
 
 
 
-//        미니플레이어 연동
-        if(intent.hasExtra("playing")){
-               setPlayerStatus(false)
-        }
-        if(intent.hasExtra("pause")){
-               setPlayerStatus(true)
-        }
+
 
         binding.songBtnDownIb.setOnClickListener {
           onBackPressed()
         }
         binding.songBtnPlayIv.setOnClickListener {
-            val intent = Intent (this, MainActivity::class.java)
-            intent.putExtra("playing", "playing")
             setPlayerStatus(false)
-            startActivity(intent)
         }
+
         binding.songBtnPauseIv.setOnClickListener {
-            val intent = Intent (this, MainActivity::class.java)
-            intent.putExtra("pause", "pause")
             setPlayerStatus(true)
 
         }
 
+    }
+
+
+
+    fun initSong() {
+        if (intent.hasExtra("title") && intent.hasExtra("singer") && intent.hasExtra("playtime") && intent.hasExtra(
+                "isPlaying"
+            )
+        ) {
+
+            song.title = intent.getStringExtra("title")!!
+            song.singer = intent.getStringExtra("singer")!!
+            song.playTime = intent.getIntExtra("playTime", 0)
+            song.isPlaying = intent.getBooleanExtra("isPlaying", false)
+
+            binding.songUpperTitleTv.text = song.title
+            binding.songUpperSingerTv.text = song.singer
+            binding.songTimeEndTv.text =
+                String.format("%02d:%02d", song.playTime / 60, song.playTime % 60)
+            setPlayerStatus(song.isPlaying)
+        }
     }
 
 
@@ -90,6 +112,20 @@ class SongActivity : AppCompatActivity() {
             }
         }
 
+
+    inner class Player(val playtime : Int, var isPlaying : Boolean) : Thread(){
+        private var second = 0
+        override fun run(){
+            while(true){
+                sleep(1000)
+            second++
+
+            handler.post{
+                binding.songTimeStartTv.text = String.format("%02d:%02d", second/60, second%60)
+            }
+            }
+        }
+    }
 
 
     }
