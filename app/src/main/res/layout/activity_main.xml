@@ -12,7 +12,26 @@
         android:layout_height="0dp"
 
         app:layout_constraintBottom_toTopOf="@id/main_player_layout"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <SeekBar
+        android:id="@+id/main_miniplayer_sb"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@null"
+        android:progressBackgroundTint="@color/song_player"
+        android:progressTint="@color/song_player"
+        android:thumb="@color/transparent"
+        android:progress="0"
+        android:max="1000"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        app:layout_constraintBottom_toTopOf="@id/main_player_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout

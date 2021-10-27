@@ -1,17 +1,17 @@
 package com.example.flo
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.WindowInsetsController
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.example.flo.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity() {
+
+    val song = Song("라일락", "아이유", 215, false)
+    private lateinit var player : Player
     lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,7 +19,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         initNavigation()
 
-        val song = Song("라일락", "아이유", 215, false)
+
+
+
 
         binding.mainPlayerLayout.setOnClickListener {
             val intent = Intent(this, SongActivity::class.java)
@@ -29,6 +31,10 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("isPlaying", song.isPlaying)
             startActivity(intent)
         }
+
+        player = Player(song.playTime, song.isPlaying)
+
+        player.start()
 
 
 
@@ -41,11 +47,12 @@ class MainActivity : AppCompatActivity() {
 
         binding.mainMiniplayerBtn.setOnClickListener {
             setMiniPlayerStatus(false)
+            song.isPlaying = true
         }
         binding.mainPauseBtn.setOnClickListener {
             setMiniPlayerStatus(true)
+            song.isPlaying = false
         }
-        val intent = Intent(this, SongActivity::class.java)
 
 
 
@@ -94,7 +101,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun setMiniPlayerStatus(isPlaying : Boolean){
+    fun setMiniPlayerStatus(isPlaying: Boolean){
         if(isPlaying){
             binding.mainMiniplayerBtn.visibility = View.VISIBLE
             binding.mainPauseBtn.visibility = View.GONE
@@ -106,6 +113,36 @@ class MainActivity : AppCompatActivity() {
 
 
 
+
+
+    inner class Player(private val playtime: Int, var isPlaying: Boolean) : Thread(){
+        private var second = 0
+
+        override fun run() {
+            try {
+                while (true) {
+
+                    if (second >= playtime){
+                        break
+                    }
+                    if (isPlaying){
+                        sleep(1000)
+                        second++
+
+                        runOnUiThread {
+                            binding.mainMiniplayerSb.progress = second* 1000 / playtime
+                        }
+
+                    }
+                }
+
+            }catch (e : InterruptedException){
+                Log.d("interrupt", "스레드가 종료")
+            }
+
+
+        }
+    }
 
 
 

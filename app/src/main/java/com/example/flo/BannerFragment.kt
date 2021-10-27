@@ -23,4 +23,6 @@ class BannerFragment(val imgRes : Int) : Fragment() {
 
     }
 
+
+
 }
