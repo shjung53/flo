@@ -16,6 +16,7 @@ class SongActivity : AppCompatActivity() {
 
 
     private lateinit var player: Player
+
     private val song: Song = Song()
 
 
@@ -68,7 +69,7 @@ class SongActivity : AppCompatActivity() {
 
 
         binding.songBtnDownIb.setOnClickListener {
-            onBackPressed()
+            finish()
         }
 
         binding.songBtnPlayIv.setOnClickListener {
@@ -86,7 +87,7 @@ class SongActivity : AppCompatActivity() {
 
 
     private fun initSong() {
-        if (intent.hasExtra("title") && intent.hasExtra("singer") && intent.hasExtra("playtime") && intent.hasExtra(
+        if (intent.hasExtra("title") && intent.hasExtra("singer") && intent.hasExtra("playTime") && intent.hasExtra(
                 "isPlaying"
             )
         ) {
@@ -95,9 +96,10 @@ class SongActivity : AppCompatActivity() {
             song.playTime = intent.getIntExtra("playTime", 0)
             song.isPlaying = intent.getBooleanExtra("isPlaying", false)
 
+            binding.songTimeEndTv.text = String.format("%02d:%02d", song.playTime/60,song.playTime%60)
             binding.songUpperTitleTv.text = song.title
             binding.songUpperSingerTv.text = song.singer
-            binding.songTimeEndTv.text = String.format("%02d:%02d", song.playTime/60,song.playTime%60)
+            setPlayerStatus(song.isPlaying)
         }
     }
 
@@ -113,14 +115,14 @@ class SongActivity : AppCompatActivity() {
     }
 
 
-    inner class Player(private val playtime: Int, var isPlaying: Boolean) : Thread(){
+    inner class Player(private val playTime: Int, var isPlaying: Boolean) : Thread(){
         private var second = 0
 
         override fun run() {
             try {
                 while (true) {
 
-                    if (second >= playtime){
+                    if (second >= playTime){
                         break
                     }
                     if (isPlaying){
@@ -128,7 +130,7 @@ class SongActivity : AppCompatActivity() {
                         second++
 
                         runOnUiThread {
-                            binding.songProgressSb.progress = second* 1000 / playtime
+                            binding.songProgressSb.progress = second* 1000 / playTime
                             binding.songTimeStartTv.text =
                                 String.format("%02d:%02d",second/60,second%60)
                         }

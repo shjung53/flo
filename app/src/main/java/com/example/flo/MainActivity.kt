@@ -10,7 +10,7 @@ import com.example.flo.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    val song = Song("라일락", "아이유", 215, false)
+
     private lateinit var player : Player
     lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,7 +19,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         initNavigation()
 
-
+        val song = Song("라일락", "아이유 (IU)", 215, false)
+        setMiniPlayerStatus(song.isPlaying)
 
 
 
@@ -27,10 +28,11 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, SongActivity::class.java)
             intent.putExtra("title", song.title)
             intent.putExtra("singer", song.singer)
-            intent.putExtra("playtime", song.playTime)
+            intent.putExtra("playTime", song.playTime)
             intent.putExtra("isPlaying", song.isPlaying)
             startActivity(intent)
         }
+
 
         player = Player(song.playTime, song.isPlaying)
 
@@ -115,14 +117,14 @@ class MainActivity : AppCompatActivity() {
 
 
 
-    inner class Player(private val playtime: Int, var isPlaying: Boolean) : Thread(){
+    inner class Player(private val playTime: Int, var isPlaying: Boolean) : Thread(){
         private var second = 0
 
         override fun run() {
             try {
                 while (true) {
 
-                    if (second >= playtime){
+                    if (second >= playTime){
                         break
                     }
                     if (isPlaying){
@@ -130,7 +132,7 @@ class MainActivity : AppCompatActivity() {
                         second++
 
                         runOnUiThread {
-                            binding.mainMiniplayerSb.progress = second* 1000 / playtime
+                            binding.mainMiniplayerSb.progress = second* 1000 / playTime
                         }
 
                     }
