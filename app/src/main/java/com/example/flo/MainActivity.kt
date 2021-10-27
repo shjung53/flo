@@ -11,8 +11,10 @@ import com.example.flo.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
 
-    private lateinit var player : Player
+    private lateinit var miniplayer : MiniPlayer
+
     lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -20,7 +22,6 @@ class MainActivity : AppCompatActivity() {
         initNavigation()
 
         val song = Song("라일락", "아이유 (IU)", 215, false)
-        setMiniPlayerStatus(song.isPlaying)
 
 
 
@@ -34,9 +35,11 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        player = Player(song.playTime, song.isPlaying)
+        miniplayer = MiniPlayer(song.isPlaying)
 
-        player.start()
+        miniplayer.start()
+
+        setMiniPlayerStatus(!song.isPlaying)
 
 
 
@@ -117,14 +120,14 @@ class MainActivity : AppCompatActivity() {
 
 
 
-    inner class Player(private val playTime: Int, var isPlaying: Boolean) : Thread(){
+    inner class MiniPlayer(var isPlaying: Boolean) : Thread(){
         private var second = 0
 
         override fun run() {
             try {
                 while (true) {
 
-                    if (second >= playTime){
+                    if (second >= 100){
                         break
                     }
                     if (isPlaying){
@@ -132,7 +135,7 @@ class MainActivity : AppCompatActivity() {
                         second++
 
                         runOnUiThread {
-                            binding.mainMiniplayerSb.progress = second* 1000 / playTime
+                            binding.mainMiniPlayerSb.progress = second * 10
                         }
 
                     }
@@ -141,9 +144,12 @@ class MainActivity : AppCompatActivity() {
             }catch (e : InterruptedException){
                 Log.d("interrupt", "스레드가 종료")
             }
-
-
         }
+    }
+
+    override fun onDestroy() {
+        miniplayer.interrupt()
+        super.onDestroy()
     }
 
 

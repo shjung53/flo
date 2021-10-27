@@ -99,7 +99,7 @@ class SongActivity : AppCompatActivity() {
             binding.songTimeEndTv.text = String.format("%02d:%02d", song.playTime/60,song.playTime%60)
             binding.songUpperTitleTv.text = song.title
             binding.songUpperSingerTv.text = song.singer
-            setPlayerStatus(song.isPlaying)
+            setPlayerStatus(!song.isPlaying)
         }
     }
 
