@@ -20,7 +20,7 @@
         android:id="@+id/main_miniPlayer_sb"
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:background="@null"
+        android:background="@color/color.gray"
         android:progressBackgroundTint="@color/song_player"
         android:progressTint="@color/song_player"
         android:thumb="@color/transparent"

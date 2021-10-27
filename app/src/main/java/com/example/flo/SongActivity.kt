@@ -122,7 +122,7 @@ class SongActivity : AppCompatActivity() {
             try {
                 while (true) {
 
-                    if (second >= playTime){
+                    if (second >= playTime) {
                         break
                     }
                     if (isPlaying){
@@ -147,8 +147,8 @@ class SongActivity : AppCompatActivity() {
         }
 
     override fun onDestroy(){
-        super.onDestroy()
         player.interrupt()
+        super.onDestroy()
     }
 
 
