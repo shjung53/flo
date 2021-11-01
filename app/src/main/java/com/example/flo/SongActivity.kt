@@ -15,25 +15,25 @@ import com.example.flo.databinding.ActivitySongBinding
 
 class SongActivity : AppCompatActivity() {
 
+    lateinit var binding: ActivitySongBinding
 
     private lateinit var timer: Timer
 
     private val song: Song = Song()
 
-    private  var mediaPlayer : MediaPlayer? = null
+    private var mediaPlayer : MediaPlayer? = null
 
 
-    lateinit var binding: ActivitySongBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySongBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         initSong()
 
         timer = Timer(song.playTime, song.isPlaying)
         timer.start()
+
 
 
 //        노래 렌더링
@@ -76,16 +76,16 @@ class SongActivity : AppCompatActivity() {
         }
 
         binding.songBtnPlayIv.setOnClickListener {
-            song.isPlaying = true
+            setPlayerStatus(true)
             timer.isPlaying = true
-            setPlayerStatus(song)
+            song.isPlaying = true
             mediaPlayer?.start()
         }
 
         binding.songBtnPauseIv.setOnClickListener {
-            song.isPlaying = false
+            setPlayerStatus(false)
             timer.isPlaying = false
-            setPlayerStatus(song)
+            song.isPlaying = false
             mediaPlayer?.pause()
         }
 
@@ -106,17 +106,17 @@ class SongActivity : AppCompatActivity() {
 
 
 
-            binding.songTimeEndTv.text = String.format("%02d:%02d", song.playTime/60,song.playTime%60)
-            binding.songUpperTitleTv.text = song.title
-            binding.songUpperSingerTv.text = song.singer
-             setPlayerStatus(song)
-             mediaPlayer = MediaPlayer.create(this, music)  // 미디어 플레이어와 리소스파일 연동동
+            binding.songTimeEndTv.text = String.format("%02d:%02d", song.playTime / 60,song.playTime % 60)
+            binding.songUpperTitleTv.text = intent.getStringExtra("title")
+            binding.songUpperSingerTv.text = intent.getStringExtra("singer")
+            setPlayerStatus(song.isPlaying)
+            mediaPlayer = MediaPlayer.create(this, music)  // 미디어 플레이어와 리소스파일 연동
          }
     }
 
 
-    fun setPlayerStatus(song : Song) {
-        if (song.isPlaying) {
+    fun setPlayerStatus(isPlaying: Boolean) {
+        if (isPlaying) {
             binding.songBtnPlayIv.visibility = View.GONE
             binding.songBtnPauseIv.visibility = View.VISIBLE
         } else {
@@ -128,33 +128,31 @@ class SongActivity : AppCompatActivity() {
 
     inner class Timer(private val playTime: Int, var isPlaying: Boolean) : Thread(){
 
+        private var second = 0
+
         override fun run() {
             try {
                 while (true) {
 
-                    if (song.second >= playTime) {
+                    if (second >= playTime) {
                         break
                     }
                     if (isPlaying){
                         sleep(1000)
-                        song.second++
+                        second++
+
 
                         runOnUiThread {
-                            binding.songProgressSb.progress = song.second* 1000 / playTime
-                            binding.songTimeStartTv.text =
-                                String.format("%02d:%02d",song.second/60,song.second%60)
+                            binding.songProgressSb.progress = second * 1000 / playTime
+                            binding.songTimeStartTv.text = String.format("%02d:%02d",second / 60,second % 60)
                         }
-
                     }
                 }
-
             }catch (e : InterruptedException){
                 Log.d("interrupt", "스레드가 종료")
             }
-
-
-            }
         }
+    }
 
     override fun onDestroy(){
         timer.interrupt()

@@ -46,8 +46,6 @@ class MainActivity : AppCompatActivity() {
 
 
 
-
-
         Log.d("Log test", song.title + song.singer)
 
 
@@ -110,7 +108,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun setMiniPlayer(song : Song) {
+    fun setMiniPlayer(song : Song) {
         binding.mainMiniPlayerTitleTv.text = song.title
         binding.mainMiniPlayerSingerTv.text = song.singer
         binding.mainMiniPlayerSb.progress = (song.second*1000/song.playTime)
