@@ -17,7 +17,6 @@ class MainActivity : AppCompatActivity() {
 
 
     lateinit var binding: ActivityMainBinding
-    private var song : Song = Song()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
