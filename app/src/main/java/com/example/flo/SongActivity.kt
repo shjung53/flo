@@ -36,7 +36,6 @@ class SongActivity : AppCompatActivity() {
         timer.start()
 
 
-
 //        노래 렌더링
 
 
