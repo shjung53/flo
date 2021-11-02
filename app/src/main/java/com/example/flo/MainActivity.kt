@@ -1,22 +1,29 @@
 package com.example.flo
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.flo.databinding.ActivityMainBinding
+import com.example.flo.fragment.HomeFragment
+import com.example.flo.fragment.LockerFragment
+import com.example.flo.fragment.LookFragment
+import com.example.flo.fragment.SearchFragment
 import com.google.gson.Gson
 
 
 class MainActivity : AppCompatActivity() {
 
-
+    private var mediaPlayer : MediaPlayer? = null
 
     lateinit var binding: ActivityMainBinding
 
     private var gson : Gson = Gson()
+
     private var song : Song = Song()
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -120,6 +127,7 @@ class MainActivity : AppCompatActivity() {
             binding.mainPauseBtn.visibility = View.GONE
         }
     }
+
 
     override fun onStart() {
         super.onStart()

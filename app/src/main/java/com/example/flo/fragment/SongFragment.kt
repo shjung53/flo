@@ -1,4 +1,4 @@
-package com.example.flo
+package com.example.flo.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater

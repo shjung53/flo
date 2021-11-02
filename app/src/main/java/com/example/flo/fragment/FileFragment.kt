@@ -1,28 +1,20 @@
-package com.example.flo
+package com.example.flo.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.flo.databinding.FragmentBannerBinding
+import com.example.flo.databinding.FragmentFileBinding
 
-class BannerFragment(val imgRes : Int) : Fragment() {
-
-    lateinit var binding : FragmentBannerBinding
+class FileFragment : Fragment(){
+    lateinit var binding : FragmentFileBinding
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentBannerBinding.inflate(inflater, container, false)
-
-        binding.bannerImageIv.setImageResource(imgRes)
-
+        binding = FragmentFileBinding.inflate(inflater, container, false)
         return binding.root
-
     }
-
-
-
 }

@@ -10,7 +10,10 @@ import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.adapters.SeekBarBindingAdapter
+import androidx.databinding.adapters.SeekBarBindingAdapter.setOnSeekBarChangeListener
 import com.example.flo.databinding.ActivitySongBinding
 import com.google.gson.Gson
 
@@ -90,9 +93,20 @@ class SongActivity : AppCompatActivity() {
             song.isPlaying = false
             setPlayerStatus(false)
             mediaPlayer?.pause()
+        }
+        binding.songProgressSb.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                binding.songTimeStartTv.text = String.format("%02d:%02d", progress.toInt() * song.playTime/1000/60,progress.toInt() * song.playTime/1000%60)
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
 
         }
-
+        )
     }
 
 
@@ -128,6 +142,7 @@ class SongActivity : AppCompatActivity() {
     }
 
 
+
     inner class Player(private val playTime: Int, var isPlaying: Boolean) : Thread(){
         private var second = 0
 
@@ -158,6 +173,7 @@ class SongActivity : AppCompatActivity() {
 
             }
         }
+
 
     override fun onPause() {
         super.onPause()
