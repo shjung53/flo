@@ -102,7 +102,7 @@ class SongActivity : AppCompatActivity() {
                 song.second = progress * song.playTime / 1000
 
                 if(fromUser)  //만약 유저가 seekBar를 움직이면
-                    mediaPlayer?.seekTo(progress) // 위치 바꾼 곳에서 재생
+                    mediaPlayer?.seekTo(song.second) // 위치 바꾼 곳에서 재생
 
            }
 

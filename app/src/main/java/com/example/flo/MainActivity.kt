@@ -134,6 +134,7 @@ class MainActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("song", MODE_PRIVATE)
         val jsonSong = sharedPreferences.getString("song", null)
 
+//        처음 앱 실행시
         song = if(jsonSong == null){
             Song("라일락", "아이유 (IU)",0, 215, false,"music_lilac")
         }else{
