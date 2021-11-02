@@ -87,14 +87,15 @@ class SongActivity : AppCompatActivity() {
 
 
     private fun initSong() {
-        if (intent.hasExtra("title") && intent.hasExtra("singer") && intent.hasExtra("playTime") && intent.hasExtra(
-                "isPlaying"
-            )
+        if (intent.hasExtra("title") && intent.hasExtra("singer") && intent.hasExtra("second") && intent.hasExtra("playTime") && intent.hasExtra(
+                "isPlaying") && intent.hasExtra("music")
         ) {
             song.title = intent.getStringExtra("title")!!
             song.singer = intent.getStringExtra("singer")!!
+            song.second = intent.getIntExtra("second", 0)
             song.playTime = intent.getIntExtra("playTime", 0)
             song.isPlaying = intent.getBooleanExtra("isPlaying", false)
+            song.music = intent.getStringExtra("music")!!
 
             binding.songTimeEndTv.text = String.format("%02d:%02d", song.playTime/60,song.playTime%60)
             binding.songUpperTitleTv.text = song.title

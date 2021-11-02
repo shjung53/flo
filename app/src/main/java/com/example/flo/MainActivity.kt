@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         initNavigation()
 
-        val song = Song("라일락", "아이유 (IU)", 215, false)
+        val song = Song("라일락", "아이유 (IU)",0, 215, false,"music_lilac")
 
         setMiniPlayer(song)
 
@@ -30,8 +30,10 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, SongActivity::class.java)
             intent.putExtra("title", song.title)
             intent.putExtra("singer", song.singer)
+            intent.putExtra("second", song.second)
             intent.putExtra("playTime", song.playTime)
             intent.putExtra("isPlaying", song.isPlaying)
+            intent.putExtra("music", song.music)
             startActivity(intent)
         }
 
@@ -101,8 +103,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setMiniPlayer(song : Song) {
+
         binding.mainMiniPlayerTitleTv.text = song.title
         binding.mainMiniPlayerSingerTv.text = song.singer
+
         if (song.isPlaying) {
             binding.mainMiniplayerBtn.visibility = View.GONE
             binding.mainPauseBtn.visibility = View.VISIBLE
