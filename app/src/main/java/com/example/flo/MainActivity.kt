@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.flo.databinding.ActivityMainBinding
+import com.google.gson.Gson
 
 
 class MainActivity : AppCompatActivity() {
@@ -13,6 +14,9 @@ class MainActivity : AppCompatActivity() {
 
 
     lateinit var binding: ActivityMainBinding
+
+    private var gson : Gson = Gson()
+    private var song : Song = Song()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -106,6 +110,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.mainMiniPlayerTitleTv.text = song.title
         binding.mainMiniPlayerSingerTv.text = song.singer
+        binding.mainMiniPlayerSb.progress = song.second * 1000 / song.playTime
 
         if (song.isPlaying) {
             binding.mainMiniplayerBtn.visibility = View.GONE
@@ -116,7 +121,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        val sharedPreferences = getSharedPreferences("song", MODE_PRIVATE)
+        val jsonSong = sharedPreferences.getString("song", null)
 
+        song = if(jsonSong == null){
+            Song("라일락", "아이유 (IU)",0, 215, false,"music_lilac")
+        }else{
+            gson.fromJson(jsonSong, Song::class.java) // json을 song 데이터 객체로 변환
+        }
+        setMiniPlayer(song)
+    }
 }
 
 

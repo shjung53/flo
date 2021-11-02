@@ -12,6 +12,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.example.flo.databinding.ActivitySongBinding
+import com.google.gson.Gson
 
 class SongActivity : AppCompatActivity() {
 
@@ -21,6 +22,8 @@ class SongActivity : AppCompatActivity() {
     private val song: Song = Song()
 
     private var mediaPlayer : MediaPlayer? = null
+
+    private  var gson : Gson = Gson()
 
 
     lateinit var binding: ActivitySongBinding
@@ -156,9 +159,23 @@ class SongActivity : AppCompatActivity() {
             }
         }
 
+    override fun onPause() {
+        super.onPause()
+        mediaPlayer?.pause()
+        player.isPlaying = false // 스레드 중지
+        song.isPlaying = false
+        song.second = (binding.songProgressSb.progress * song.playTime) / 1000
+        setPlayerStatus(false) // 일시정지, 플레이버튼 보여주기
+
+        val sharedPreferences = getSharedPreferences("song", MODE_PRIVATE) // 간단한 데이터 기기에 저장 ex.비밀번호
+        val editor = sharedPreferences.edit() //sharedPreferences 조작
+        val json = gson.toJson(song) // song 데이터 객체를 json으로 변환
+        editor.putString("song", json)
+        editor.apply() // sharedPreferences에 적용
+    }
     override fun onDestroy(){
-        player.interrupt()
         super.onDestroy()
+        player.interrupt()
     }
 
 
