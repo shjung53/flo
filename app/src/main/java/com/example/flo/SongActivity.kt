@@ -74,12 +74,12 @@ class SongActivity : AppCompatActivity() {
 
         binding.songBtnPlayIv.setOnClickListener {
             player.isPlaying = true
-            setPlayerStatus(false)
+            setPlayerStatus(true)
         }
 
         binding.songBtnPauseIv.setOnClickListener {
             player.isPlaying = false
-            setPlayerStatus(true)
+            setPlayerStatus(false)
 
         }
 
@@ -99,18 +99,18 @@ class SongActivity : AppCompatActivity() {
             binding.songTimeEndTv.text = String.format("%02d:%02d", song.playTime/60,song.playTime%60)
             binding.songUpperTitleTv.text = song.title
             binding.songUpperSingerTv.text = song.singer
-            setPlayerStatus(!song.isPlaying)
+            setPlayerStatus(song.isPlaying)
         }
     }
 
 
     fun setPlayerStatus(isPlaying: Boolean) {
         if (isPlaying) {
-            binding.songBtnPlayIv.visibility = View.VISIBLE
-            binding.songBtnPauseIv.visibility = View.GONE
-        } else {
             binding.songBtnPlayIv.visibility = View.GONE
             binding.songBtnPauseIv.visibility = View.VISIBLE
+        } else {
+            binding.songBtnPlayIv.visibility = View.VISIBLE
+            binding.songBtnPauseIv.visibility = View.GONE
         }
     }
 

@@ -11,7 +11,6 @@ import com.example.flo.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
 
-    private lateinit var miniplayer: MiniPlayer
 
     lateinit var binding: ActivityMainBinding
 
@@ -24,11 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         val song = Song("라일락", "아이유 (IU)", 215, false)
 
-        setMiniPlayerStatus(!song.isPlaying)
-
-        miniplayer = MiniPlayer(song.isPlaying)
-
-        miniplayer.start()
+        setMiniPlayer(song)
 
 
         binding.mainPlayerLayout.setOnClickListener {
@@ -52,15 +47,13 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.mainMiniplayerBtn.setOnClickListener {
-            setMiniPlayerStatus(false)
             song.isPlaying = true
+            setMiniPlayer(song)
         }
         binding.mainPauseBtn.setOnClickListener {
-            setMiniPlayerStatus(true)
             song.isPlaying = false
+            setMiniPlayer(song)
         }
-
-
 
 
 
@@ -107,43 +100,19 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun setMiniPlayerStatus(isPlaying: Boolean) {
-        if (isPlaying) {
-            binding.mainMiniplayerBtn.visibility = View.VISIBLE
-            binding.mainPauseBtn.visibility = View.GONE
-        } else {
+    fun setMiniPlayer(song : Song) {
+        binding.mainMiniPlayerTitleTv.text = song.title
+        binding.mainMiniPlayerSingerTv.text = song.singer
+        if (song.isPlaying) {
             binding.mainMiniplayerBtn.visibility = View.GONE
             binding.mainPauseBtn.visibility = View.VISIBLE
+        } else {
+            binding.mainMiniplayerBtn.visibility = View.VISIBLE
+            binding.mainPauseBtn.visibility = View.GONE
         }
     }
 
 
-    inner class MiniPlayer(var isPlaying: Boolean) : Thread() {
-        private var second = 0
-            override fun run() {
-                try{
-                    while (true) {
-                        if (second >= 10) {
-                            break
-                        }
-                        if (isPlaying) {
-                            sleep(1000)
-                            second++
-                            println("1초행")
-                            runOnUiThread{
-                                binding.mainMiniPlayerSb.progress = second * 100
-                            }
-                        }
-                    }
-        }catch (e : InterruptedException){
-                    Log.d("interrupt", "스레드가 종료")
-                }
-            }
-    }
-    override fun onDestroy(){
-        miniplayer.interrupt()
-        super.onDestroy()
-    }
 }
 
 
