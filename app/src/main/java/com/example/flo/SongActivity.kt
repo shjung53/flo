@@ -2,6 +2,7 @@ package com.example.flo
 
 import android.app.Activity
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -18,6 +19,8 @@ class SongActivity : AppCompatActivity() {
     private lateinit var player: Player
 
     private val song: Song = Song()
+
+    private var mediaPlayer : MediaPlayer? = null
 
 
     lateinit var binding: ActivitySongBinding
@@ -74,12 +77,16 @@ class SongActivity : AppCompatActivity() {
 
         binding.songBtnPlayIv.setOnClickListener {
             player.isPlaying = true
+            song.isPlaying = true
             setPlayerStatus(true)
+            mediaPlayer?.start()
         }
 
         binding.songBtnPauseIv.setOnClickListener {
             player.isPlaying = false
+            song.isPlaying = false
             setPlayerStatus(false)
+            mediaPlayer?.pause()
 
         }
 
@@ -96,11 +103,13 @@ class SongActivity : AppCompatActivity() {
             song.playTime = intent.getIntExtra("playTime", 0)
             song.isPlaying = intent.getBooleanExtra("isPlaying", false)
             song.music = intent.getStringExtra("music")!!
+            val music = resources.getIdentifier(song.music, "raw", this.packageName) // 리소스를 반환(리소스이름, 폴더, 패키지이름)
 
             binding.songTimeEndTv.text = String.format("%02d:%02d", song.playTime/60,song.playTime%60)
             binding.songUpperTitleTv.text = song.title
             binding.songUpperSingerTv.text = song.singer
             setPlayerStatus(song.isPlaying)
+            mediaPlayer = MediaPlayer.create(this, music) // mediaPlayer 와 Music 연동
         }
     }
 
