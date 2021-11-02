@@ -95,18 +95,28 @@ class SongActivity : AppCompatActivity() {
             mediaPlayer?.pause()
         }
         binding.songProgressSb.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                binding.songTimeStartTv.text = String.format("%02d:%02d", progress.toInt() * song.playTime/1000/60,progress.toInt() * song.playTime/1000%60)
-            }
 
+//            사용자가 터치중일때
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                binding.songTimeStartTv.text = String.format("%02d:%02d", progress * song.playTime/1000/60,progress * song.playTime/1000%60)
+                song.second = progress * song.playTime / 1000
+
+                if(fromUser)  //만약 유저가 seekBar를 움직이면
+                    mediaPlayer?.seekTo(progress) // 위치 바꾼 곳에서 재생
+
+           }
+
+//            사용자가 터치할때
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
             }
-
+//            사용자가 터치 끝났을 때
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
             }
-
         }
         )
+
+
+
     }
 
 
@@ -144,23 +154,22 @@ class SongActivity : AppCompatActivity() {
 
 
     inner class Player(private val playTime: Int, var isPlaying: Boolean) : Thread(){
-        private var second = 0
 
         override fun run() {
             try {
                 while (true) {
 
-                    if (second >= playTime) {
+                    if (song.second >= playTime) {
                         break
                     }
                     if (isPlaying){
                         sleep(1000)
-                        second++
+                        song.second++
 
                         runOnUiThread {
-                            binding.songProgressSb.progress = second* 1000 / playTime
+                            binding.songProgressSb.progress = song.second* 1000 / playTime
                             binding.songTimeStartTv.text =
-                                String.format("%02d:%02d",second/60,second%60)
+                                String.format("%02d:%02d",song.second/60,song.second%60)
                         }
 
                     }
@@ -192,6 +201,8 @@ class SongActivity : AppCompatActivity() {
     override fun onDestroy(){
         super.onDestroy()
         player.interrupt()
+        mediaPlayer?.release() // mediaPlayer 리소스 해제
+        mediaPlayer = null
     }
 
 
