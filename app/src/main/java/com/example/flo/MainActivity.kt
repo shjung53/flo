@@ -16,8 +16,6 @@ import com.google.gson.Gson
 
 class MainActivity : AppCompatActivity() {
 
-    private var mediaPlayer : MediaPlayer? = null
-
     lateinit var binding: ActivityMainBinding
 
     private var gson : Gson = Gson()
@@ -32,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         initNavigation()
 
-        val song = Song("라일락", "아이유 (IU)",0, 215, false,"music_lilac")
+        val song = Song("라일락", "아이유 (IU)",0, 214, false,"music_lilac")
 
         setMiniPlayer(song)
 
@@ -117,7 +115,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.mainMiniPlayerTitleTv.text = song.title
         binding.mainMiniPlayerSingerTv.text = song.singer
-        binding.mainMiniPlayerSb.progress = song.second * 1000 / song.playTime
 
         if (song.isPlaying) {
             binding.mainMiniplayerBtn.visibility = View.GONE

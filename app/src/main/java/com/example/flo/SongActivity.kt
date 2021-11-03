@@ -16,9 +16,9 @@ import androidx.databinding.adapters.SeekBarBindingAdapter
 import androidx.databinding.adapters.SeekBarBindingAdapter.setOnSeekBarChangeListener
 import com.example.flo.databinding.ActivitySongBinding
 import com.google.gson.Gson
+import java.text.SimpleDateFormat
 
 class SongActivity : AppCompatActivity() {
-
 
     private lateinit var player: Player
 
@@ -27,6 +27,9 @@ class SongActivity : AppCompatActivity() {
     private var mediaPlayer : MediaPlayer? = null
 
     private  var gson : Gson = Gson()
+
+    private var timeFormat = SimpleDateFormat("mm:ss") // 시간 표현
+
 
 
     lateinit var binding: ActivitySongBinding
@@ -98,19 +101,19 @@ class SongActivity : AppCompatActivity() {
 
 //            사용자가 터치중일때
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                binding.songTimeStartTv.text = String.format("%02d:%02d", progress * song.playTime/1000/60,progress * song.playTime/1000%60)
-                song.second = progress * song.playTime / 1000
-
+                binding.songTimeStartTv.text = timeFormat.format(mediaPlayer!!.currentPosition)
                 if(fromUser)  //만약 유저가 seekBar를 움직이면
-                    mediaPlayer?.seekTo(song.second) // 위치 바꾼 곳에서 재생
+                    mediaPlayer?.seekTo(progress) // 위치 바꾼 곳에서 재생
 
            }
 
 //            사용자가 터치할때
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                binding.songTimeStartTv.text = timeFormat.format(mediaPlayer!!.currentPosition)
             }
 //            사용자가 터치 끝났을 때
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                binding.songTimeStartTv.text = timeFormat.format(mediaPlayer!!.currentPosition)
             }
         }
         )
@@ -137,6 +140,7 @@ class SongActivity : AppCompatActivity() {
             binding.songUpperSingerTv.text = song.singer
             setPlayerStatus(song.isPlaying)
             mediaPlayer = MediaPlayer.create(this, music) // mediaPlayer 와 Music 연동
+            binding.songProgressSb.max = mediaPlayer!!.duration // seekBar max mediaPlayer와 연동
         }
     }
 
@@ -155,23 +159,25 @@ class SongActivity : AppCompatActivity() {
 
     inner class Player(private val playTime: Int, var isPlaying: Boolean) : Thread(){
 
+
         override fun run() {
+
+
             try {
                 while (true) {
 
-                    if (song.second >= playTime) {
+                    if (mediaPlayer!!.currentPosition >= playTime) {
                         break
                     }
                     if (isPlaying){
-                        sleep(1000)
+                        sleep(1)
                         song.second++
 
                         runOnUiThread {
-                            binding.songProgressSb.progress = song.second* 1000 / playTime
+                            binding.songProgressSb.progress = mediaPlayer!!.currentPosition
                             binding.songTimeStartTv.text =
-                                String.format("%02d:%02d",song.second/60,song.second%60)
+                                timeFormat.format(song.second)
                         }
-
                     }
                 }
 
@@ -189,7 +195,6 @@ class SongActivity : AppCompatActivity() {
         mediaPlayer?.pause()
         player.isPlaying = false // 스레드 중지
         song.isPlaying = false
-        song.second = (binding.songProgressSb.progress * song.playTime) / 1000
         setPlayerStatus(false) // 일시정지, 플레이버튼 보여주기
 
         val sharedPreferences = getSharedPreferences("song", MODE_PRIVATE) // 간단한 데이터 기기에 저장 ex.비밀번호
