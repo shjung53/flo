@@ -40,7 +40,7 @@ class SongActivity : AppCompatActivity() {
 
         initSong()
 
-        player = Player(song.playTime, song.isPlaying)
+        player = Player(song.isPlaying)
         player.start()
 
 
@@ -157,7 +157,7 @@ class SongActivity : AppCompatActivity() {
 
 
 
-    inner class Player(private val playTime: Int, var isPlaying: Boolean) : Thread(){
+    inner class Player(var isPlaying: Boolean) : Thread(){
 
 
         override fun run() {
@@ -166,9 +166,6 @@ class SongActivity : AppCompatActivity() {
             try {
                 while (true) {
 
-                    if (mediaPlayer!!.currentPosition >= playTime) {
-                        break
-                    }
                     if (isPlaying){
                         sleep(1)
 
