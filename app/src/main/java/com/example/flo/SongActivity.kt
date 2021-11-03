@@ -81,7 +81,7 @@ class SongActivity : AppCompatActivity() {
 
 
         binding.songBtnDownIb.setOnClickListener {
-            finish()
+            onBackPressed()
         }
 
         binding.songBtnPlayIv.setOnClickListener {
@@ -173,6 +173,7 @@ class SongActivity : AppCompatActivity() {
                             binding.songProgressSb.progress = mediaPlayer!!.currentPosition
                             binding.songTimeStartTv.text =
                                 timeFormat.format(mediaPlayer!!.currentPosition)
+                            song.second = mediaPlayer!!.currentPosition / 1000
                         }
                     }
                 }
@@ -191,6 +192,7 @@ class SongActivity : AppCompatActivity() {
         mediaPlayer?.pause()
         player.isPlaying = false // 스레드 중지
         song.isPlaying = false
+        song.second = mediaPlayer!!.currentPosition / 1000
         setPlayerStatus(false) // 일시정지, 플레이버튼 보여주기
 
         val sharedPreferences = getSharedPreferences("song", MODE_PRIVATE) // 간단한 데이터 기기에 저장 ex.비밀번호

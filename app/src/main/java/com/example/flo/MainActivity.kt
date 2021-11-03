@@ -111,10 +111,12 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun setMiniPlayer(song : Song) {
+    private fun setMiniPlayer(song : Song) {
 
         binding.mainMiniPlayerTitleTv.text = song.title
         binding.mainMiniPlayerSingerTv.text = song.singer
+        binding.mainMiniPlayerSb.max = song.playTime
+        binding.mainMiniPlayerSb.progress = song.second
 
         if (song.isPlaying) {
             binding.mainMiniplayerBtn.visibility = View.GONE
