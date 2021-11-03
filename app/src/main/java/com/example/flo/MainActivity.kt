@@ -251,10 +251,12 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
-
-
-
+    override fun onDestroy(){
+        super.onDestroy()
+        timer.interrupt()
+        mediaPlayer?.release() // mediaPlayer 리소스 해제
+        mediaPlayer = null
+    }
 
 
 
