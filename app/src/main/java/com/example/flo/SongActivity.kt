@@ -171,12 +171,11 @@ class SongActivity : AppCompatActivity() {
                     }
                     if (isPlaying){
                         sleep(1)
-                        song.second++
 
                         runOnUiThread {
                             binding.songProgressSb.progress = mediaPlayer!!.currentPosition
                             binding.songTimeStartTv.text =
-                                timeFormat.format(song.second)
+                                timeFormat.format(mediaPlayer!!.currentPosition)
                         }
                     }
                 }
