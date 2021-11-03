@@ -17,11 +17,15 @@ import com.example.flo.fragment.LockerFragment
 import com.example.flo.fragment.LookFragment
 import com.example.flo.fragment.SearchFragment
 import com.google.gson.Gson
+import java.lang.Thread.sleep
 import java.util.*
 
 var mediaPlayer : MediaPlayer? = null
 
+
 class MainActivity : AppCompatActivity() {
+
+    var mediaPlayer : MediaPlayer? = null
 
     lateinit var binding: ActivityMainBinding
 
@@ -29,7 +33,8 @@ class MainActivity : AppCompatActivity() {
 
     private var song : Song = Song()
 
-    private var handler = Handler(Looper.getMainLooper())
+    private lateinit var timer: Timer
+
 
 
 
@@ -46,6 +51,10 @@ class MainActivity : AppCompatActivity() {
         mediaPlayer = MediaPlayer.create(this, music)
 
         setMiniPlayer(song)
+
+        timer = Timer(song.isPlaying)
+        timer.start()
+
 
 
         binding.mainPlayerLayout.setOnClickListener {
@@ -88,11 +97,13 @@ class MainActivity : AppCompatActivity() {
             song.isPlaying = true
             setMiniPlayerStatus(true)
             mediaPlayer?.start()
+            timer.isPlaying = true
         }
         binding.mainPauseBtn.setOnClickListener {
             song.isPlaying = false
             setMiniPlayerStatus(false)
             mediaPlayer?.pause()
+            timer.isPlaying = false
         }
 
 
@@ -158,11 +169,40 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun Timer(){
-        handler.post{
-            binding.mainMiniPlayerSb.progress = mediaPlayer?.currentPosition!!
+
+    inner class Timer(var isPlaying: Boolean) : Thread(){
+
+
+        override fun run() {
+
+            try {
+
+                while (true) {
+
+                    if(song.second >= mediaPlayer?.duration!!)
+
+                        break
+
+
+                    if (isPlaying){
+                        sleep(1)
+
+                        runOnUiThread {
+                            binding.mainMiniPlayerSb.progress = mediaPlayer?.currentPosition!!
+                            song.second = mediaPlayer?.currentPosition!!
+                        }
+                    }
+                }
+
+            }catch (e : InterruptedException){
+                Log.d("interrupt", "스레드가 종료")
+            }
+
+
         }
     }
+
+
 
 
 
@@ -186,8 +226,41 @@ class MainActivity : AppCompatActivity() {
             gson.fromJson(jsonSong, Song::class.java) // json을 song 데이터 객체로 변환
         }
         setMiniPlayer(song)
+    if(song.isPlaying){
+        setMiniPlayerStatus(true)
+        mediaPlayer?.seekTo(song.second)
+    mediaPlayer?.start()
+    }else{
+        setMiniPlayerStatus(false)
     }
+    }
+
+
+
+
+    override fun onPause() {
+        super.onPause()
+        timer.isPlaying = false // 스레드 중지
+        song.second = mediaPlayer?.currentPosition!!
+        setMiniPlayerStatus(false) // 일시정지, 플레이버튼 보여주기
+        val sharedPreferences = getSharedPreferences("song", MODE_PRIVATE) // 간단한 데이터 기기에 저장 ex.비밀번호
+        val editor = sharedPreferences.edit() //sharedPreferences 조작
+        val json = gson.toJson(song) // song 데이터 객체를 json으로 변환
+        editor.putString("song", json)
+        editor.apply() // sharedPreferences에 적용
+    }
+
+
+
+
+
+
+
+
+
+
 }
+
 
 
 

@@ -22,7 +22,7 @@ class SongActivity : AppCompatActivity() {
 
     private lateinit var player: Player
 
-    private val song: Song = Song()
+    private var song: Song = Song()
 
 
     private  var gson : Gson = Gson()
@@ -166,7 +166,7 @@ class SongActivity : AppCompatActivity() {
 
                 while (true) {
 
-                    if(song.second >= song.playTime *1000)
+                    if(song.second >= mediaPlayer?.duration!!)
 
                         break
 
@@ -192,13 +192,24 @@ class SongActivity : AppCompatActivity() {
         }
 
 
+
+
+    override fun onStart() {
+        super.onStart()
+        val sharedPreferences = getSharedPreferences("song", MODE_PRIVATE)
+        val jsonSong = sharedPreferences.getString("song", null)
+        song = gson.fromJson(jsonSong, Song::class.java)
+        mediaPlayer?.seekTo(song.second)
+        if(song.isPlaying)
+        {mediaPlayer?.start()}
+    }
+
+
     override fun onPause() {
         super.onPause()
         mediaPlayer?.pause()
         player.isPlaying = false // 스레드 중지
-        song.isPlaying = false
         song.second = mediaPlayer?.currentPosition!!
-        setPlayerStatus(false) // 일시정지, 플레이버튼 보여주기
 
         val sharedPreferences = getSharedPreferences("song", MODE_PRIVATE) // 간단한 데이터 기기에 저장 ex.비밀번호
         val editor = sharedPreferences.edit() //sharedPreferences 조작
