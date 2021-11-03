@@ -20,6 +20,8 @@ import java.text.SimpleDateFormat
 
 class SongActivity : AppCompatActivity() {
 
+    private var mediaPlayer : MediaPlayer? = null
+
     private lateinit var player: Player
 
     private var song: Song = Song()
@@ -199,9 +201,6 @@ class SongActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("song", MODE_PRIVATE)
         val jsonSong = sharedPreferences.getString("song", null)
         song = gson.fromJson(jsonSong, Song::class.java)
-        mediaPlayer?.seekTo(song.second)
-        if(song.isPlaying)
-        {mediaPlayer?.start()}
     }
 
 
@@ -209,8 +208,7 @@ class SongActivity : AppCompatActivity() {
         super.onPause()
         mediaPlayer?.pause()
         player.isPlaying = false // 스레드 중지
-        song.second = mediaPlayer?.currentPosition!!
-
+        setPlayerStatus(false)
         val sharedPreferences = getSharedPreferences("song", MODE_PRIVATE) // 간단한 데이터 기기에 저장 ex.비밀번호
         val editor = sharedPreferences.edit() //sharedPreferences 조작
         val json = gson.toJson(song) // song 데이터 객체를 json으로 변환

@@ -20,12 +20,12 @@ import com.google.gson.Gson
 import java.lang.Thread.sleep
 import java.util.*
 
-var mediaPlayer : MediaPlayer? = null
+
 
 
 class MainActivity : AppCompatActivity() {
 
-    var mediaPlayer : MediaPlayer? = null
+    private var mediaPlayer : MediaPlayer? = null
 
     lateinit var binding: ActivityMainBinding
 
@@ -226,13 +226,6 @@ class MainActivity : AppCompatActivity() {
             gson.fromJson(jsonSong, Song::class.java) // json을 song 데이터 객체로 변환
         }
         setMiniPlayer(song)
-    if(song.isPlaying){
-        setMiniPlayerStatus(true)
-        mediaPlayer?.seekTo(song.second)
-    mediaPlayer?.start()
-    }else{
-        setMiniPlayerStatus(false)
-    }
     }
 
 
@@ -240,8 +233,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
+        mediaPlayer?.pause()
         timer.isPlaying = false // 스레드 중지
-        song.second = mediaPlayer?.currentPosition!!
         setMiniPlayerStatus(false) // 일시정지, 플레이버튼 보여주기
         val sharedPreferences = getSharedPreferences("song", MODE_PRIVATE) // 간단한 데이터 기기에 저장 ex.비밀번호
         val editor = sharedPreferences.edit() //sharedPreferences 조작
@@ -257,8 +250,6 @@ class MainActivity : AppCompatActivity() {
         mediaPlayer?.release() // mediaPlayer 리소스 해제
         mediaPlayer = null
     }
-
-
 
 
 }
