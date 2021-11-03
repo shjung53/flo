@@ -201,6 +201,8 @@ class SongActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("song", MODE_PRIVATE)
         val jsonSong = sharedPreferences.getString("song", null)
         song = gson.fromJson(jsonSong, Song::class.java)
+        mediaPlayer?.seekTo(song.second)
+        binding.songProgressSb.progress = song.second
     }
 
 
