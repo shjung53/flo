@@ -24,7 +24,6 @@ class SongActivity : AppCompatActivity() {
 
     private val song: Song = Song()
 
-    private var mediaPlayer : MediaPlayer? = null
 
     private  var gson : Gson = Gson()
 
@@ -97,23 +96,24 @@ class SongActivity : AppCompatActivity() {
             setPlayerStatus(false)
             mediaPlayer?.pause()
         }
+
+
         binding.songProgressSb.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
 
 //            사용자가 터치중일때
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                binding.songTimeStartTv.text = timeFormat.format(mediaPlayer!!.currentPosition)
+                binding.songTimeStartTv.text = timeFormat.format(mediaPlayer?.currentPosition)
                 if(fromUser)  //만약 유저가 seekBar를 움직이면
                     mediaPlayer?.seekTo(progress) // 위치 바꾼 곳에서 재생
-
            }
 
 //            사용자가 터치할때
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                binding.songTimeStartTv.text = timeFormat.format(mediaPlayer!!.currentPosition)
+                binding.songTimeStartTv.text = timeFormat.format(mediaPlayer?.currentPosition)
             }
 //            사용자가 터치 끝났을 때
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                binding.songTimeStartTv.text = timeFormat.format(mediaPlayer!!.currentPosition)
+                binding.songTimeStartTv.text = timeFormat.format(mediaPlayer?.currentPosition)
             }
         }
         )
@@ -140,7 +140,7 @@ class SongActivity : AppCompatActivity() {
             binding.songUpperSingerTv.text = song.singer
             setPlayerStatus(song.isPlaying)
             mediaPlayer = MediaPlayer.create(this, music) // mediaPlayer 와 Music 연동
-            binding.songProgressSb.max = mediaPlayer!!.duration // seekBar max mediaPlayer와 연동
+            binding.songProgressSb.max = mediaPlayer?.duration!! // seekBar max mediaPlayer와 연동
         }
     }
 
@@ -162,18 +162,23 @@ class SongActivity : AppCompatActivity() {
 
         override fun run() {
 
-
             try {
+
                 while (true) {
+
+                    if(song.second >= song.playTime *1000)
+
+                        break
+
 
                     if (isPlaying){
                         sleep(1)
 
                         runOnUiThread {
-                            binding.songProgressSb.progress = mediaPlayer!!.currentPosition
+                            binding.songProgressSb.progress = mediaPlayer?.currentPosition!!
                             binding.songTimeStartTv.text =
-                                timeFormat.format(mediaPlayer!!.currentPosition)
-                            song.second = mediaPlayer!!.currentPosition / 1000
+                                timeFormat.format(mediaPlayer?.currentPosition!!)
+                            song.second = mediaPlayer?.currentPosition!!
                         }
                     }
                 }
@@ -192,7 +197,7 @@ class SongActivity : AppCompatActivity() {
         mediaPlayer?.pause()
         player.isPlaying = false // 스레드 중지
         song.isPlaying = false
-        song.second = mediaPlayer!!.currentPosition / 1000
+        song.second = mediaPlayer?.currentPosition!!
         setPlayerStatus(false) // 일시정지, 플레이버튼 보여주기
 
         val sharedPreferences = getSharedPreferences("song", MODE_PRIVATE) // 간단한 데이터 기기에 저장 ex.비밀번호
@@ -207,8 +212,6 @@ class SongActivity : AppCompatActivity() {
         mediaPlayer?.release() // mediaPlayer 리소스 해제
         mediaPlayer = null
     }
-
-
 
 }
 
