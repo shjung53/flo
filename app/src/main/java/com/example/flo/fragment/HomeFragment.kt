@@ -14,11 +14,7 @@ import com.example.flo.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
     lateinit var binding: FragmentHomeBinding
-
-
-
-
-
+    private var albumDatas = ArrayList<Album>()
 
 
 
@@ -29,11 +25,26 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-        binding.homeAlbumNew1Ll.setOnClickListener {
-            (context as MainActivity).supportFragmentManager.beginTransaction()
-                .replace(R.id.main_frm, AlbumFragment())
-                .commitAllowingStateLoss()
+
+
+
+        albumDatas.apply {
+            add(Album("Butter","방탄소년단(BTS)", R.drawable.img_album_exp))
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         val bannerAdapter = BannerViewPagerAdapter(this)
 
