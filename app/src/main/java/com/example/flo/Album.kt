@@ -1,4 +1,4 @@
-package com.example.flo.fragment
+package com.example.flo
 
 import com.example.flo.Song
 

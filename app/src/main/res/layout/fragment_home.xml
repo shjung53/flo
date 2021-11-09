@@ -230,9 +230,14 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/home_albums_new_rv"
             android:layout_width="match_parent"
-            android:layout_height="210dp"
+            android:layout_height="250dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            tools:listitem="@layout/item_album"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@id/home_album_oversea_tv"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/home_banner_vp"
             />
 
 
