@@ -43,8 +43,7 @@ class HomeFragment : Fragment() {
 
         binding.homeAlbumsNewRv.adapter = albumRVAdapter
 
-        albumRVAdapter.setMyItemClickListener(object : AlbumRVAdapter.MyItemClickListener{
-
+        albumRVAdapter.setMyItemClickListener(object: AlbumRVAdapter.MyItemClickListener{
             override fun onItemClick(album: Album) {
                 changeAlbumFragment(album)
             }

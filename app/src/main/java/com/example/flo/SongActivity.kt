@@ -202,7 +202,9 @@ class SongActivity : AppCompatActivity() {
         val jsonSong = sharedPreferences.getString("song", null)
         song = gson.fromJson(jsonSong, Song::class.java)
         mediaPlayer?.seekTo(song.second)
-        binding.songProgressSb.progress = song.second
+        if(song.isPlaying){
+            mediaPlayer?.start()
+        }
     }
 
 

@@ -6,10 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.flo.Album
-import com.example.flo.R
-import com.example.flo.Save
-import com.example.flo.SaveRVAdapter
+import com.example.flo.*
 import com.example.flo.databinding.FragmentSaveBinding
 
 class SaveFragment : Fragment() {
@@ -33,6 +30,9 @@ class SaveFragment : Fragment() {
             add(Save( "Stay","The Kid LAROI, Justin Bieber", R.drawable.img_stay))
             add(Save( "call on me","Josef Salvat", R.drawable.img_callonme))
             add(Save( "Take Care (Deluxe)","Drake", R.drawable.img_takecare))
+            add(Save( "Savage","Aespa", R.drawable.img_savage))
+            add(Save( "신호등","이무진", R.drawable.img_traffic))
+            add(Save( "Easy On Me","Adele", R.drawable.img_adele))
         }
 
 
@@ -41,6 +41,18 @@ class SaveFragment : Fragment() {
         binding.saveListRcv.adapter = saveRVAdapter
 
         binding.saveListRcv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
+        saveRVAdapter.setMyItemClickListener(object: SaveRVAdapter.MyItemClickListener{
+            override fun onItemClick(save: Save) {
+            }
+
+            override fun onRemoveSave(position: Int) {
+                saveRVAdapter.removeItem(position)
+            }
+
+
+        }
+        )
 
 
 

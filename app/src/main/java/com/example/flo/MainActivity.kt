@@ -226,6 +226,16 @@ class MainActivity : AppCompatActivity() {
             gson.fromJson(jsonSong, Song::class.java) // json을 song 데이터 객체로 변환
         }
         setMiniPlayer(song)
+
+        timer = Timer(song.isPlaying)
+        timer.start()
+
+        val music = resources.getIdentifier(song.music, "raw", this.packageName)
+        mediaPlayer = MediaPlayer.create(this, music)
+        mediaPlayer?.seekTo(song.second)
+        if(song.isPlaying){
+            mediaPlayer?.start()
+        }
     }
 
 

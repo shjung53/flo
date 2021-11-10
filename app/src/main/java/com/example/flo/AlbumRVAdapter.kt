@@ -27,15 +27,6 @@ class AlbumRVAdapter(private val albumList: ArrayList<Album>) : RecyclerView.Ada
         return ViewHolder(binding)
     }
 
-    fun addItem(album: Album){
-        albumList.add(album)
-        notifyDataSetChanged()
-    }
-    fun removeItem(position: Int){
-        albumList.removeAt(position)
-        notifyDataSetChanged()
-    }
-
 
     // 뷰홀더에 데이터를 바인딩할 때 마다 호출
     override fun onBindViewHolder(holder: AlbumRVAdapter.ViewHolder, position: Int) {
