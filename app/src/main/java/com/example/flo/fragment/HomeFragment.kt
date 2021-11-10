@@ -13,6 +13,7 @@ import com.google.gson.Gson
 
 
 class HomeFragment : Fragment() {
+
     lateinit var binding: FragmentHomeBinding
     private var albumDatas = ArrayList<Album>()
 
@@ -24,6 +25,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
 
