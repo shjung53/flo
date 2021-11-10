@@ -18,26 +18,53 @@
 <!--        app:layout_constraintBottom_toBottomOf="parent"-->
 <!--        />-->
 
+    <ImageView
+        android:id="@+id/save_btn_select_all_iv"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:src="@drawable/btn_playlist_select_off"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+    <TextView
+        android:id="@+id/save_btn_select_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="전체선택"
+        android:textColor="#3A3A3A"
+        android:textSize="18sp"
+        app:layout_constraintTop_toTopOf="@id/save_btn_select_all_iv"
+        app:layout_constraintStart_toEndOf="@id/save_btn_select_all_iv"
+        app:layout_constraintBottom_toBottomOf="@id/save_btn_select_all_iv"/>
+    <ImageView
+        android:id="@+id/save_btn_play_all_iv"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/icon_browse_arrow_right"
+        android:layout_marginStart="10dp"
+        app:layout_constraintTop_toTopOf="@id/save_btn_select_all_iv"
+        app:layout_constraintStart_toEndOf="@id/save_btn_select_tv"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="전체듣기"
+        android:textColor="#3A3A3A"
+        android:textSize="18sp"
+        app:layout_constraintTop_toTopOf="@id/save_btn_play_all_iv"
+        app:layout_constraintStart_toEndOf="@id/save_btn_play_all_iv"
+        app:layout_constraintBottom_toBottomOf="@id/save_btn_play_all_iv"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/save_list_rcv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         tools:listitem="@layout/item_save"
-
-
+        app:layout_constraintTop_toBottomOf="@id/save_btn_select_all_iv"
+        app:layout_constraintStart_toStartOf="parent"
         />
-
-
-
-
-
-
-
-
-
-
-
 
 
 

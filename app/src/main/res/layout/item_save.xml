@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
+    android:layout_marginStart="20dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
@@ -69,7 +70,6 @@
         app:layout_constraintStart_toEndOf="@id/save_btn_play_iv"
         app:layout_constraintTop_toTopOf="@id/save_song_cover_cv"
         app:layout_constraintBottom_toBottomOf="@id/save_song_cover_cv">
-
     </ImageView>
 
 
