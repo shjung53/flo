@@ -225,17 +225,19 @@ class MainActivity : AppCompatActivity() {
         }else{
             gson.fromJson(jsonSong, Song::class.java) // json을 song 데이터 객체로 변환
         }
-        setMiniPlayer(song)
-
         timer = Timer(song.isPlaying)
         timer.start()
 
         val music = resources.getIdentifier(song.music, "raw", this.packageName)
         mediaPlayer = MediaPlayer.create(this, music)
+        binding.mainMiniPlayerSb.progress = song.second
         mediaPlayer?.seekTo(song.second)
+
         if(song.isPlaying){
             mediaPlayer?.start()
+            setMiniPlayerStatus(song.isPlaying)
         }
+        Log.d("메인온스타트","메인온스타트")
     }
 
 
@@ -243,14 +245,20 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        mediaPlayer?.pause()
-        timer.isPlaying = false // 스레드 중지
-        setMiniPlayerStatus(false) // 일시정지, 플레이버튼 보여주기
         val sharedPreferences = getSharedPreferences("song", MODE_PRIVATE) // 간단한 데이터 기기에 저장 ex.비밀번호
         val editor = sharedPreferences.edit() //sharedPreferences 조작
         val json = gson.toJson(song) // song 데이터 객체를 json으로 변환
         editor.putString("song", json)
         editor.apply() // sharedPreferences에 적용
+        mediaPlayer?.pause()
+        timer.isPlaying = false // 스레드 중지
+        setMiniPlayerStatus(false)
+        Log.d("메인온퍼즈","메인온퍼즈")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("메인온스탑","메인온스탑")
     }
 
 
@@ -259,6 +267,7 @@ class MainActivity : AppCompatActivity() {
         timer.interrupt()
         mediaPlayer?.release() // mediaPlayer 리소스 해제
         mediaPlayer = null
+        Log.d("메인온디스트로이","메인온디스트로이")
     }
 
 

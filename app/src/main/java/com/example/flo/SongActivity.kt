@@ -1,19 +1,10 @@
 package com.example.flo
-
-import android.app.Activity
-import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
-import android.view.WindowManager
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.adapters.SeekBarBindingAdapter
-import androidx.databinding.adapters.SeekBarBindingAdapter.setOnSeekBarChangeListener
 import com.example.flo.databinding.ActivitySongBinding
 import com.google.gson.Gson
 import java.text.SimpleDateFormat
@@ -160,6 +151,7 @@ class SongActivity : AppCompatActivity() {
 
 
     inner class Player(var isPlaying: Boolean) : Thread(){
+        private var duration = mediaPlayer?.duration
 
 
         override fun run() {
@@ -168,7 +160,7 @@ class SongActivity : AppCompatActivity() {
 
                 while (true) {
 
-                    if(song.second >= mediaPlayer?.duration!!)
+                    if(song.second >= duration!!)
 
                         break
 
@@ -202,23 +194,32 @@ class SongActivity : AppCompatActivity() {
         val jsonSong = sharedPreferences.getString("song", null)
         song = gson.fromJson(jsonSong, Song::class.java)
         mediaPlayer?.seekTo(song.second)
+        binding.songProgressSb.progress = song.second
+        setPlayerStatus(song.isPlaying)
         if(song.isPlaying){
             mediaPlayer?.start()
         }
+        Log.d("송온스타트","송온스타트")
     }
 
 
     override fun onPause() {
         super.onPause()
-        mediaPlayer?.pause()
         player.isPlaying = false // 스레드 중지
-        setPlayerStatus(false)
         val sharedPreferences = getSharedPreferences("song", MODE_PRIVATE) // 간단한 데이터 기기에 저장 ex.비밀번호
         val editor = sharedPreferences.edit() //sharedPreferences 조작
         val json = gson.toJson(song) // song 데이터 객체를 json으로 변환
         editor.putString("song", json)
         editor.apply() // sharedPreferences에 적용
+        mediaPlayer?.pause()
+        Log.d("송온퍼즈","송온퍼즈")
     }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("송온스탑","송온스탑")
+    }
+
     override fun onDestroy(){
         super.onDestroy()
         player.interrupt()
