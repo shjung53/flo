@@ -249,10 +249,10 @@ class MainActivity : AppCompatActivity() {
         val editor = sharedPreferences.edit() //sharedPreferences 조작
         val json = gson.toJson(song) // song 데이터 객체를 json으로 변환
         editor.putString("song", json)
-        editor.apply() // sharedPreferences에 적용
-        mediaPlayer?.pause()
-        timer.isPlaying = false // 스레드 중지
+        editor.apply() // sharedPreferences에 적용 // 스레드 중지
         setMiniPlayerStatus(false)
+        timer.isPlaying = false
+        mediaPlayer?.pause()
         Log.d("메인온퍼즈","메인온퍼즈")
     }
 

@@ -205,12 +205,12 @@ class SongActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        player.isPlaying = false // 스레드 중지
         val sharedPreferences = getSharedPreferences("song", MODE_PRIVATE) // 간단한 데이터 기기에 저장 ex.비밀번호
         val editor = sharedPreferences.edit() //sharedPreferences 조작
         val json = gson.toJson(song) // song 데이터 객체를 json으로 변환
         editor.putString("song", json)
         editor.apply() // sharedPreferences에 적용
+        player.isPlaying = false // 스레드 중지
         mediaPlayer?.pause()
         Log.d("송온퍼즈","송온퍼즈")
     }
