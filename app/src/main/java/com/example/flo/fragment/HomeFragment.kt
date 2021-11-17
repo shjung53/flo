@@ -29,15 +29,9 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
 
+        val songDB = SongDatabase.getInstance(MainActivity())!!
+        albumDatas.addAll(songDB.AlbumDao().getAlbums())
 
-        albumDatas.apply {
-            add(Album("Butter","방탄소년단(BTS)", R.drawable.img_album_exp))
-            add(Album("라일락","아이유 (IU)", R.drawable.img_album_exp2))
-            add(Album( "Certified Lover Boy","Drake", R.drawable.img_clb))
-            add(Album( "Stay","The Kid LAROI, Justin Bieber", R.drawable.img_stay))
-            add(Album( "call on me","Josef Salvat", R.drawable.img_callonme))
-            add(Album( "Take Care (Deluxe)","Drake", R.drawable.img_takecare))
-        }
 
         val albumRVAdapter = AlbumRVAdapter(albumDatas)
 
@@ -57,20 +51,16 @@ class HomeFragment : Fragment() {
 
 
 
-
-
-
         val bannerAdapter = BannerViewPagerAdapter(this)
 
         bannerAdapter.addFragment(BannerFragment(R.drawable.img_home_viewpager_exp))
         bannerAdapter.addFragment(BannerFragment(R.drawable.img_home_viewpager_exp2))
 
+
         binding.homeBannerVp.adapter = bannerAdapter
         binding.homeBannerVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
-
         return binding.root
-
 
     }
 

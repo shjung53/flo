@@ -2,30 +2,24 @@ package com.example.flo
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ExpandableListView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flo.databinding.ItemSaveBinding
 
-class SaveRVAdapter(private val saveList: ArrayList<Save>) : RecyclerView.Adapter<SaveRVAdapter.ViewHolder>() {
+class SaveRVAdapter() : RecyclerView.Adapter<SaveRVAdapter.ViewHolder>() {
 
+    private val songs = ArrayList<Song>()
 
     interface MyItemClickListener{
-        fun onItemClick(save: Save)
-        fun onRemoveSave(position: Int)
+        fun onRemoveSave(songId: Int)
     }
 
     private lateinit var mItemClickListener: MyItemClickListener
 
 
+
     fun setMyItemClickListener(itemClickListener: MyItemClickListener){
         mItemClickListener = itemClickListener
     }
-
-    fun removeItem(position: Int){
-        saveList.removeAt(position)
-        notifyDataSetChanged()
-    }
-
 
 
 
@@ -37,21 +31,38 @@ class SaveRVAdapter(private val saveList: ArrayList<Save>) : RecyclerView.Adapte
     }
 
     override fun onBindViewHolder(holder: SaveRVAdapter.ViewHolder, position: Int) {
-        holder.bind(saveList[position])
-        holder.binding.saveBtnMoreIv.setOnClickListener { mItemClickListener.onRemoveSave(position) }
-
+        holder.bind(songs[position])
+        holder.binding.saveBtnMoreIv.setOnClickListener {
+            removeItem(position)
+            mItemClickListener.onRemoveSave(songs[position].id)
+        }
     }
 
-    override fun getItemCount(): Int = saveList.size
+    override fun getItemCount(): Int = songs.size
+
+    fun removeItem(position: Int){
+        songs.removeAt(position)
+        notifyDataSetChanged()
+    }
+
+    fun addSongs(songs: ArrayList<Song>){
+        this.songs.clear()
+        this.songs.addAll(songs)
+        notifyDataSetChanged()
+    }
+
+
+
+
+
 
     inner class ViewHolder(val binding : ItemSaveBinding) : RecyclerView.ViewHolder(binding.root){
-
-        fun bind(save : Save){
-
-            binding.saveSongCoverIv.setImageResource(save.coverImg!!)
-            binding.saveSongTitleTv.text = save.title
-            binding.saveSongSingerTv.text = save.singer
+        fun bind(song : Song){
+            binding.saveSongCoverIv.setImageResource(song.coverImg!!)
+            binding.saveSongTitleTv.text = song.title
+            binding.saveSongSingerTv.text = song.singer
 
         }
     }
 }
+

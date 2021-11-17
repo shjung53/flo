@@ -4,43 +4,166 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.flo.databinding.ActivitySongBinding
-import com.google.gson.Gson
 import java.text.SimpleDateFormat
 
 class SongActivity : AppCompatActivity() {
 
+    lateinit var binding: ActivitySongBinding
+
     private var mediaPlayer : MediaPlayer? = null
 
-    private lateinit var player: Player
-
-    private var song: Song = Song()
-
-
-    private  var gson : Gson = Gson()
+    private lateinit var timer: Timer
 
     private var timeFormat = SimpleDateFormat("mm:ss") // 시간 표현
 
+    private var songs = ArrayList<Song>()
+    private  var nowPos = 0
+    private lateinit var songDB :SongDatabase
 
-
-    lateinit var binding: ActivitySongBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySongBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+        initPlayList()
         initSong()
+        if(songs[nowPos].isPlaying){
+            mediaPlayer?.seekTo(songs[nowPos].second)
+            mediaPlayer?.start()}
+        initClickListener()
+        playType()
+        initSeekBarCL()
 
-        player = Player(song.isPlaying)
-        player.start()
+    }
+
+    private fun initSeekBarCL() {
+        binding.songProgressSb.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+
+            //            사용자가 터치중일때
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if (fromUser)  //만약 유저가 seekBar를 움직이면
+                    mediaPlayer?.seekTo(progress) // 위치 바꾼 곳에서 재생
+            }
+
+            //            사용자가 터치할때
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                binding.songTimeStartTv.text = timeFormat.format(mediaPlayer?.currentPosition)
+            }
+
+            //            사용자가 터치 끝났을 때
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                binding.songTimeStartTv.text = timeFormat.format(mediaPlayer?.currentPosition)
+            }
+        }
+        )
+    }
+
+    private fun initPlayList(){
+        songDB = SongDatabase.getInstance(this)!!
+        songs.addAll(songDB.SongDao().getSongs())
+    }
+
+    private fun initSong() {
+        val spf = getSharedPreferences("song", MODE_PRIVATE)
+        val songId = spf.getInt("songId", 0)
+
+        nowPos = getPlayingSongPosition(songId)
+        startTimer()
+        setPlayer(songs[nowPos])
+    }
 
 
 
-//        노래 렌더링
+
+    private fun getPlayingSongPosition(songId : Int): Int{
+        for(i in 0 until songs.size){
+            if(songs[i].id == songId){
+                return i
+            }
+        }
+        return 0
+    }
 
 
-//반복재생 설정
+    private fun initClickListener(){
+
+        binding.songBtnDownIb.setOnClickListener {
+            onBackPressed()
+        }
+
+        binding.songBtnPlayIv.setOnClickListener {
+            setPlayerStatus(true)
+        }
+
+        binding.songBtnPauseIv.setOnClickListener {
+            setPlayerStatus(false)
+        }
+
+        binding.songBtnPreviousIv.setOnClickListener{
+            moveSong(-1)
+            if(songs[nowPos+1].isPlaying){
+                setPlayerStatus(true)
+                mediaPlayer?.start()
+            }
+        }
+
+        binding.songBtnNextIv.setOnClickListener{
+           moveSong( +1)
+            if(songs[nowPos-1].isPlaying){
+                setPlayerStatus(true)
+                mediaPlayer?.start()
+            }
+        }
+        binding.songLikeIv.setOnClickListener {
+            setLike(songs[nowPos].isLike)
+        }
+    }
+
+    private fun moveSong(direct: Int){
+
+        if(nowPos + direct < 0){
+            Toast.makeText(this,"first song", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if(nowPos + direct >= songs.size){
+            Toast.makeText(this,"last song", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        nowPos += direct
+
+        timer.interrupt()
+
+        mediaPlayer?.release()
+        mediaPlayer = null
+
+        setPlayer(songs[nowPos])
+        startTimer()
+    }
+
+    private fun setLike(isLike: Boolean){
+        songs[nowPos].isLike = !isLike
+        songDB.SongDao().updateIsLikeById(!isLike,songs[nowPos].id)
+
+        if(isLike){
+            binding.songLikeIv.setImageResource(R.drawable.ic_my_like_off)}
+            else{
+                binding.songLikeIv.setImageResource(R.drawable.ic_my_like_on)
+            }
+        }
+
+
+    private fun startTimer() {
+        timer = Timer(songs[nowPos].isPlaying)
+        timer.start()
+    }
+
+    private fun playType(){
+        //반복재생 설정
         binding.songBtnRepeatOffIv.setOnClickListener {
             binding.songBtnRepeatOffIv.visibility = View.GONE
             binding.songBtnRepeatOnIv.visibility = View.VISIBLE
@@ -67,91 +190,54 @@ class SongActivity : AppCompatActivity() {
             binding.songRandomOnIv.visibility = View.GONE
             binding.songRandomOffIv.visibility = View.VISIBLE
         }
-
-
-
-
-
-        binding.songBtnDownIb.setOnClickListener {
-            onBackPressed()
-        }
-
-        binding.songBtnPlayIv.setOnClickListener {
-            player.isPlaying = true
-            song.isPlaying = true
-            setPlayerStatus(true)
-            mediaPlayer?.start()
-        }
-
-        binding.songBtnPauseIv.setOnClickListener {
-            player.isPlaying = false
-            song.isPlaying = false
-            setPlayerStatus(false)
-            mediaPlayer?.pause()
-        }
-
-
-        binding.songProgressSb.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
-
-//            사용자가 터치중일때
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                binding.songTimeStartTv.text = timeFormat.format(mediaPlayer?.currentPosition)
-                if(fromUser)  //만약 유저가 seekBar를 움직이면
-                    mediaPlayer?.seekTo(progress) // 위치 바꾼 곳에서 재생
-           }
-
-//            사용자가 터치할때
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                binding.songTimeStartTv.text = timeFormat.format(mediaPlayer?.currentPosition)
-            }
-//            사용자가 터치 끝났을 때
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                binding.songTimeStartTv.text = timeFormat.format(mediaPlayer?.currentPosition)
-            }
-        }
-        )
-
-
-
     }
 
 
-    private fun initSong() {
-        if (intent.hasExtra("title") && intent.hasExtra("singer") && intent.hasExtra("second") && intent.hasExtra("playTime") && intent.hasExtra(
-                "isPlaying") && intent.hasExtra("music")
-        ) {
-            song.title = intent.getStringExtra("title")!!
-            song.singer = intent.getStringExtra("singer")!!
-            song.second = intent.getIntExtra("second", 0)
-            song.playTime = intent.getIntExtra("playTime", 0)
-            song.isPlaying = intent.getBooleanExtra("isPlaying", false)
-            song.music = intent.getStringExtra("music")!!
-            val music = resources.getIdentifier(song.music, "raw", this.packageName) // 리소스를 반환(리소스이름, 폴더, 패키지이름)
 
-            binding.songTimeEndTv.text = String.format("%02d:%02d", song.playTime/60,song.playTime%60)
-            binding.songUpperTitleTv.text = song.title
-            binding.songUpperSingerTv.text = song.singer
-            setPlayerStatus(song.isPlaying)
-            mediaPlayer = MediaPlayer.create(this, music) // mediaPlayer 와 Music 연동
-            binding.songProgressSb.max = mediaPlayer?.duration!! // seekBar max mediaPlayer와 연동
+    private fun setPlayer(song: Song){
+
+        val music = resources.getIdentifier(song.music, "raw", this.packageName)
+
+        binding.songUpperTitleTv.text = song.title
+        binding.songUpperSingerTv.text = song.singer
+        binding.songTimeStartTv.text = timeFormat.format(song.second)
+        binding.songTimeEndTv.text = timeFormat.format(song.playTime * 1000)
+        binding.songAlbumCoverIv.setImageResource(song.coverImg!!)
+        binding.songProgressSb.max = song.playTime * 1000
+        binding.songProgressSb.progress = song.second
+
+        setPlayerStatus(song.isPlaying)
+
+        if (song.isLike) {
+            binding.songLikeIv.setImageResource(R.drawable.ic_my_like_on)
+        } else {
+            binding.songLikeIv.setImageResource(R.drawable.ic_my_like_off)
         }
+
+        mediaPlayer = MediaPlayer.create(this, music)
     }
 
+    private fun setPlayerStatus(isPlaying: Boolean) {
 
-    fun setPlayerStatus(isPlaying: Boolean) {
+        timer.isPlaying = isPlaying
+
+
         if (isPlaying) {
             binding.songBtnPlayIv.visibility = View.GONE
             binding.songBtnPauseIv.visibility = View.VISIBLE
+            mediaPlayer?.start()
         } else {
             binding.songBtnPlayIv.visibility = View.VISIBLE
             binding.songBtnPauseIv.visibility = View.GONE
+            mediaPlayer?.pause()
         }
     }
 
 
 
-    inner class Player(var isPlaying: Boolean) : Thread(){
-        private var duration = mediaPlayer?.duration
+    inner class Timer(var isPlaying: Boolean) : Thread(){
+        private  var second = songs[nowPos].second
+        private var playTime = songs[nowPos].playTime * 1000
 
 
         override fun run() {
@@ -160,7 +246,7 @@ class SongActivity : AppCompatActivity() {
 
                 while (true) {
 
-                    if(song.second >= duration!!)
+                    if(second >= playTime)
 
                         break
 
@@ -172,7 +258,6 @@ class SongActivity : AppCompatActivity() {
                             binding.songProgressSb.progress = mediaPlayer?.currentPosition!!
                             binding.songTimeStartTv.text =
                                 timeFormat.format(mediaPlayer?.currentPosition!!)
-                            song.second = mediaPlayer?.currentPosition!!
                         }
                     }
                 }
@@ -180,51 +265,31 @@ class SongActivity : AppCompatActivity() {
             }catch (e : InterruptedException){
                 Log.d("interrupt", "스레드가 종료")
             }
-
-
-            }
         }
-
-
-
-
-    override fun onStart() {
-        super.onStart()
-        val sharedPreferences = getSharedPreferences("song", MODE_PRIVATE)
-        val jsonSong = sharedPreferences.getString("song", null)
-        song = gson.fromJson(jsonSong, Song::class.java)
-        mediaPlayer?.seekTo(song.second)
-        binding.songProgressSb.progress = song.second
-        setPlayerStatus(song.isPlaying)
-        if(song.isPlaying){
-            mediaPlayer?.start()
-        }
-        Log.d("송온스타트","송온스타트")
     }
+
+
 
 
     override fun onPause() {
         super.onPause()
-        val sharedPreferences = getSharedPreferences("song", MODE_PRIVATE) // 간단한 데이터 기기에 저장 ex.비밀번호
-        val editor = sharedPreferences.edit() //sharedPreferences 조작
-        val json = gson.toJson(song) // song 데이터 객체를 json으로 변환
-        editor.putString("song", json)
+
+        val spf = getSharedPreferences("song", MODE_PRIVATE) // 간단한 데이터 기기에 저장 ex.비밀번호
+        val editor = spf.edit() //sharedPreferences 조작
+
+        editor.putInt("songsId", songs[nowPos].id)
         editor.apply() // sharedPreferences에 적용
-        player.isPlaying = false // 스레드 중지
         mediaPlayer?.pause()
         Log.d("송온퍼즈","송온퍼즈")
     }
 
-    override fun onStop() {
-        super.onStop()
-        Log.d("송온스탑","송온스탑")
-    }
 
     override fun onDestroy(){
         super.onDestroy()
-        player.interrupt()
+        timer.interrupt()
         mediaPlayer?.release() // mediaPlayer 리소스 해제
         mediaPlayer = null
+        Log.d("송온디스트로이","송온디스트로이")
     }
 
 }
