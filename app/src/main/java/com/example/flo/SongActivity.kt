@@ -104,19 +104,22 @@ class SongActivity : AppCompatActivity() {
         }
 
         binding.songBtnPreviousIv.setOnClickListener{
-            moveSong(-1)
-            if(songs[nowPos+1].isPlaying){
-                setPlayerStatus(true)
+            if(songs[nowPos].isPlaying){
+                moveSong(-1)
                 mediaPlayer?.start()
+            }else{
+                moveSong(-1)
             }
         }
 
         binding.songBtnNextIv.setOnClickListener{
-           moveSong( +1)
-            if(songs[nowPos-1].isPlaying){
-                setPlayerStatus(true)
+            if(songs[nowPos].isPlaying){
+                moveSong(+1)
                 mediaPlayer?.start()
+            }else{
+                moveSong(+1)
             }
+
         }
         binding.songLikeIv.setOnClickListener {
             setLike(songs[nowPos].isLike)
@@ -124,7 +127,6 @@ class SongActivity : AppCompatActivity() {
     }
 
     private fun moveSong(direct: Int){
-
         if(nowPos + direct < 0){
             Toast.makeText(this,"first song", Toast.LENGTH_SHORT).show()
             return
