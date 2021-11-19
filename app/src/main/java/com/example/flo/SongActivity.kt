@@ -195,7 +195,6 @@ class SongActivity : AppCompatActivity() {
     }
 
 
-
     private fun setPlayer(song: Song){
 
         val music = resources.getIdentifier(song.music, "raw", this.packageName)
