@@ -35,7 +35,6 @@ class SaveFragment : Fragment() {
 
         binding.saveListRcv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-        saveRVAdapter.addSongs(songDB.SongDao().getLikedSongs(true) as ArrayList)
 
         saveRVAdapter.setMyItemClickListener(object: SaveRVAdapter.MyItemClickListener{
             override fun onRemoveSave(songId: Int) {
@@ -43,7 +42,7 @@ class SaveFragment : Fragment() {
             }
         })
 
-
+        saveRVAdapter.addSongs(songDB.SongDao().getLikedSongs(true) as ArrayList)
 
 
 

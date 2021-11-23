@@ -36,6 +36,12 @@ class SaveAlbumFragment: Fragment() {
 
         saveAlbumRVAdapter.addAlbums(songDB.AlbumDao().getLikeAlbums(userId) as ArrayList)
 
+        saveAlbumRVAdapter.setMyItemClickListener(object: SaveAlbumRVAdapter.MyItemClickListener{
+            override fun onRemoveSave(albumId: Int) {
+                songDB.AlbumDao().disLikeAlbum(userId, albumId)
+            }
+        })
+
 
         return binding.root
     }
