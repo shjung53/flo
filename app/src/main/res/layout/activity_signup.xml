@@ -114,6 +114,18 @@
             android:textSize="16sp"
             />
     </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        android:id="@+id/signup_complete_tv"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="가입완료"
+        android:textColor="@color/white"
+        android:background="@color/theme_color"
+        android:textSize="18sp"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
 
 
 
