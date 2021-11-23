@@ -15,6 +15,7 @@ class SaveFragment : Fragment() {
 
     lateinit var binding : FragmentSaveBinding
     lateinit var songDB : SongDatabase
+    private val songs = ArrayList<Song>()
 
 
     override fun onCreateView(

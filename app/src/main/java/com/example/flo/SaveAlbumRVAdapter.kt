@@ -21,7 +21,7 @@ class SaveAlbumRVAdapter() : RecyclerView.Adapter<SaveAlbumRVAdapter.ViewHolder>
         }
     }
 
-    override fun getItemCount(): Int =albums.size
+    override fun getItemCount(): Int = albums.size
 
     fun addAlbums(albums: ArrayList<Album>){
         this.albums.clear()

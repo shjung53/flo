@@ -62,7 +62,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/save_list_rcv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         tools:listitem="@layout/item_save"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
