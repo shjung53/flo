@@ -16,6 +16,7 @@ class SignUpActivity : AppCompatActivity() {
 
         binding.signupCompleteTv.setOnClickListener {
             signUp()
+            finish()
         }
     }
 
