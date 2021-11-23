@@ -11,7 +11,6 @@ abstract class SongDatabase : RoomDatabase() {
     abstract fun SongDao(): SongDao
     abstract fun AlbumDao(): AlbumDao
     abstract fun UserDao(): UserDao
-    abstract fun LikeDao(): UserDao
 
     companion object{
         private var instance: SongDatabase? = null
