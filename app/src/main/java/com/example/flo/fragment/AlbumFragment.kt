@@ -32,6 +32,8 @@ class AlbumFragment : Fragment() {
         val albumData = arguments?.getString("album")
         val album = gson.fromJson(albumData, Album::class.java)
 
+        isLiked = isLikedAlbum(album.id)
+
         setView(album)
         setClickListeners(album)
 
