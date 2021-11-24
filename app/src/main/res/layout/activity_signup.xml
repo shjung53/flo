@@ -84,6 +84,7 @@
         app:layout_constraintTop_toBottomOf="@id/signup_email_ll"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:passwordToggleEnabled="true"
         >
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/signup_password_tie"
@@ -106,6 +107,7 @@
         app:layout_constraintTop_toBottomOf="@id/signup_password_til"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:passwordToggleEnabled="true"
         >
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/signup_check_password_tie"
