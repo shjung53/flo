@@ -15,7 +15,7 @@ import com.example.flo.databinding.FragmentSaveAlbumBinding
 
 class SaveAlbumFragment: Fragment() {
     lateinit var binding: FragmentSaveAlbumBinding
-    lateinit var songDB: SongDatabase
+    lateinit var albumDB: SongDatabase
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,22 +23,23 @@ class SaveAlbumFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSaveAlbumBinding.inflate(inflater, container, false)
-        songDB = SongDatabase.getInstance(requireContext())!!
-
+        albumDB = SongDatabase.getInstance(requireContext())!!
 
         val userId = getJwt()
 
         val saveAlbumRVAdapter = SaveAlbumRVAdapter()
 
+        val likeAlbums = albumDB.AlbumDao().getLikeAlbums(userId)
+
         binding.saveAlbumListRcv.adapter = saveAlbumRVAdapter
 
         binding.saveAlbumListRcv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-        saveAlbumRVAdapter.addAlbums(songDB.AlbumDao().getLikeAlbums(userId) as ArrayList)
+        if(likeAlbums.isNotEmpty()){saveAlbumRVAdapter.addAlbums(albumDB.AlbumDao().getLikeAlbums(userId) as ArrayList)}
 
         saveAlbumRVAdapter.setMyItemClickListener(object: SaveAlbumRVAdapter.MyItemClickListener{
             override fun onRemoveSave(albumId: Int) {
-                songDB.AlbumDao().disLikeAlbum(userId, albumId)
+                albumDB.AlbumDao().disLikeAlbum(userId, albumId)
             }
         })
 

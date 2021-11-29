@@ -60,7 +60,6 @@ class SaveRVAdapter() : RecyclerView.Adapter<SaveRVAdapter.ViewHolder>() {
             binding.saveSongCoverIv.setImageResource(song.coverImg!!)
             binding.saveSongTitleTv.text = song.title
             binding.saveSongSingerTv.text = song.singer
-
         }
     }
 }

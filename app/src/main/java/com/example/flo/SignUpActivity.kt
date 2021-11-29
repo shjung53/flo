@@ -24,26 +24,47 @@ class SignUpActivity : AppCompatActivity() {
     private fun getUser(): User {
         val email: String = binding.signupEmailTie.text.toString() + "@" + binding.signupAddressTie.text.toString()
         val password: String = binding.signupPasswordTie.text.toString()
+        val name: String = binding.signupNameTie.text.toString()
 
-        return User(email, password)
+        return User(email, password, name)
     }
 
 
-    private fun signUp(){
-        if(binding.signupEmailTie.text.toString().isEmpty() || binding.signupAddressTie.text.toString().isEmpty()){
+//    private fun signUp(){
+//        if(binding.signupEmailTie.text.toString().isEmpty() || binding.signupAddressTie.text.toString().isEmpty()){
+//            Toast.makeText(this, "이메일 형식이 잘못되었습니다", Toast.LENGTH_SHORT).show()
+//            return
+//        }
+//
+//        if(binding.signupPasswordTie.text.toString() != binding.signupCheckPasswordTie.text.toString()){
+//            Toast.makeText(this, "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
+//            return
+//        }
+//        val userDB = SongDatabase.getInstance(this)!!
+//        userDB.UserDao().insert(getUser())
+//
+//        val users = userDB.UserDao().getUsers()
+//        Log.d("유저", users.toString())
+//    }
+
+
+    private fun signUp() {
+        if (binding.signupEmailTie.text.toString().isEmpty() || binding.signupAddressTie.text.toString().isEmpty()
+        ) {
             Toast.makeText(this, "이메일 형식이 잘못되었습니다", Toast.LENGTH_SHORT).show()
             return
         }
 
-        if(binding.signupPasswordTie.text.toString() != binding.signupCheckPasswordTie.text.toString()){
+        if (binding.signupNameTie.text.toString().isEmpty()) {
+            Toast.makeText(this, "이름 형식이 잘못되었습니다", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+
+        if (binding.signupPasswordTie.text.toString() != binding.signupCheckPasswordTie.text.toString()) {
             Toast.makeText(this, "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
             return
         }
-        val userDB = SongDatabase.getInstance(this)!!
-        userDB.UserDao().insert(getUser())
-
-        val users = userDB.UserDao().getUsers()
-        Log.d("유저", users.toString())
     }
 
 }
