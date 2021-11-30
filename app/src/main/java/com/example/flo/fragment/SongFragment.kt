@@ -17,13 +17,15 @@ class SongFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSongBinding.inflate(inflater, container, false)
-        return binding.root
 
-        //토스트메세지
         binding.albumBtnSongPlayIv.setOnClickListener {
             var tMessage = Toast.makeText(requireActivity(), "한곡이 재생목록에 담겼습니다\n중복곡은 제외됩니다", Toast.LENGTH_SHORT)
             tMessage.show()
         }
+
+
+        return binding.root
     }
+
 
 }

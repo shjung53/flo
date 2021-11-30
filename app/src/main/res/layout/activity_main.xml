@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
 
-                android:text="라일락"
+                android:text="제목"
 
                 android:textColor="@color/black"
                 />
@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
 
-                android:text="아이유 (IU)"/>
+                android:text="가수"/>
 
         </LinearLayout>
         <LinearLayout

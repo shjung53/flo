@@ -16,5 +16,6 @@ class AlbumViewPagerAdapter(fragment : Fragment) : FragmentStateAdapter(fragment
             1 -> DetailFragment()
             else -> MediaFragment()
         }
+
     }
 }
