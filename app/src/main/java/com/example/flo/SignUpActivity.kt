@@ -5,6 +5,10 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.flo.databinding.ActivitySignupBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
 
 class SignUpActivity : AppCompatActivity() {
     lateinit var binding: ActivitySignupBinding
@@ -65,6 +69,19 @@ class SignUpActivity : AppCompatActivity() {
             Toast.makeText(this, "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
             return
         }
-    }
 
+        val retrofit = Retrofit.Builder().baseUrl("http://13.125.121.202").build()
+
+        val signUpService = retrofit.create(SignUpService::class.java)
+
+        signUpService.signUp(getUser()).enqueue(object : Callback<AuthResponse>{
+            override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
 }
