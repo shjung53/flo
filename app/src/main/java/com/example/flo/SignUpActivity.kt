@@ -52,22 +52,33 @@ class SignUpActivity : AppCompatActivity(), SignUpView {
             Toast.makeText(this, "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
             return
         }
-        val authService = AuthService()
 
+        val authService = AuthService()
         authService.setSignUpView(this)
+
+        authService.signUp(getUser())
     }
 
 
 
     override fun onSignUpLoading() {
-        TODO("Not yet implemented")
+        binding.signupLoadingIv.visibility = View.VISIBLE
     }
 
     override fun onSignUpSuccess() {
-        TODO("Not yet implemented")
+        binding.signupLoadingIv.visibility = View.GONE
+
+        finish()
     }
 
     override fun onSignUpFailure(code: Int, message: String) {
-        TODO("Not yet implemented")
+        binding.signupLoadingIv.visibility = View.GONE
+
+        when(code){
+            2016, 2017 -> {
+                binding.signupEmailErrorTv.visibility = View.VISIBLE
+                binding.signupEmailErrorTv.text = message
+            }
+        }
     }
 }
