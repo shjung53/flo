@@ -2,6 +2,7 @@ package com.example.flo
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.flo.databinding.ActivitySignupBinding
@@ -10,7 +11,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 
-class SignUpActivity : AppCompatActivity() {
+class SignUpActivity : AppCompatActivity(), SignUpView {
     lateinit var binding: ActivitySignupBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,15 +73,37 @@ class SignUpActivity : AppCompatActivity() {
 
         val retrofit = Retrofit.Builder().baseUrl("http://13.125.121.202").build()
 
-        val signUpService = retrofit.create(SignUpService::class.java)
+        val authService = retrofit.create(AuthRetrofitInterface::class.java)
 
-        signUpService.signUp(getUser()).enqueue(object : Callback<AuthResponse>{
+        authService.signUp(getUser()).enqueue(object : Callback<AuthResponse>{
             override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {
+
+                val response = response.body()!!
+
+                when(response.code){
+                    1000 -> finish()
+                    2016, 2017 ->{
+                        binding.signupEmailErrorTv.visibility = View.VISIBLE
+                        binding.signupEmailErrorTv.text = response.message
+                    }
+                }
             }
 
             override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
                 TODO("Not yet implemented")
             }
         })
+    }
+
+    override fun onSignUpLoading() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSignUpSuccess() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSignUpFailure(code: Int, message: String) {
+        TODO("Not yet implemented")
     }
 }
