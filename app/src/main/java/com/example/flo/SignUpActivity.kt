@@ -76,7 +76,6 @@ class SignUpActivity : AppCompatActivity() {
 
         signUpService.signUp(getUser()).enqueue(object : Callback<AuthResponse>{
             override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {
-                TODO("Not yet implemented")
             }
 
             override fun onFailure(call: Call<AuthResponse>, t: Throwable) {
