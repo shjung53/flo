@@ -7,10 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.flo.Album
-import com.example.flo.SaveAlbumRVAdapter
-import com.example.flo.SaveRVAdapter
-import com.example.flo.SongDatabase
+import com.example.flo.*
 import com.example.flo.databinding.FragmentSaveAlbumBinding
 
 class SaveAlbumFragment: Fragment() {
@@ -25,7 +22,7 @@ class SaveAlbumFragment: Fragment() {
         binding = FragmentSaveAlbumBinding.inflate(inflater, container, false)
         albumDB = SongDatabase.getInstance(requireContext())!!
 
-        val userId = getJwt()
+        val userId = getUserIdx(requireContext())
 
         val saveAlbumRVAdapter = SaveAlbumRVAdapter()
 
@@ -45,11 +42,5 @@ class SaveAlbumFragment: Fragment() {
 
 
         return binding.root
-    }
-
-    private fun getJwt(): Int {
-        val spf = activity?.getSharedPreferences("auth", AppCompatActivity.MODE_PRIVATE)
-
-        return spf!!.getInt("jwt", 0)
     }
 }

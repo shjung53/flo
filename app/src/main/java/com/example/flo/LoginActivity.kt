@@ -45,12 +45,6 @@ class LoginActivity : AppCompatActivity(), LoginView {
     }
 
 
-
-
-
-
-
-
     private fun startMainActivity(){
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
@@ -63,13 +57,23 @@ class LoginActivity : AppCompatActivity(), LoginView {
     override fun onLoginSuccess() {
         binding.loginLoadingIv.visibility = View.GONE
 
+        val auth : Auth
+
         saveJwt(this, auth.jwt)
+        saveUserIdx(this, auth.userIdx)
 
         startMainActivity()
     }
 
     override fun onLoginFailure(code: Int, message: String) {
         binding.loginLoadingIv.visibility = View.GONE
+
+        when(code){
+            2015, 2019, 3014 -> {
+                binding.loginErrorTv.visibility = View.VISIBLE
+                binding.loginErrorTv.text = message
+            }
+        }
     }
 
 }

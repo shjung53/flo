@@ -11,6 +11,7 @@ import com.example.flo.LockerViewPagerAdapter
 import com.example.flo.LoginActivity
 import com.example.flo.MainActivity
 import com.example.flo.databinding.FragmentLockerBinding
+import com.example.flo.getUserIdx
 import com.google.android.material.tabs.TabLayoutMediator
 
 
@@ -45,7 +46,7 @@ class LockerFragment : Fragment() {
     }
 
     private fun initView(){
-        val jwt = getJwt()
+        val jwt = getUserIdx(requireContext())
 
         if(jwt == 0){
             binding.lockerLoginTv.text = "로그인"
@@ -63,11 +64,6 @@ class LockerFragment : Fragment() {
         }
     }
 
-    private fun getJwt(): Int {
-        val spf = activity?.getSharedPreferences("auth", AppCompatActivity.MODE_PRIVATE)
-
-        return spf!!.getInt("jwt", 0)
-    }
 
     private fun logout(){
         val spf = activity?.getSharedPreferences("auth", AppCompatActivity.MODE_PRIVATE)
