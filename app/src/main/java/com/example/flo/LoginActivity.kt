@@ -2,6 +2,7 @@ package com.example.flo
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -41,6 +42,7 @@ class LoginActivity : AppCompatActivity(), LoginView {
         authService.setLoginView(this)
 
         authService.login(user)
+
 
     }
 

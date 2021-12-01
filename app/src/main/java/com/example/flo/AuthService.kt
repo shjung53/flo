@@ -1,5 +1,6 @@
 package com.example.flo
 
+import android.util.Log
 import android.widget.Toast
 import retrofit2.Call
 import retrofit2.Callback
@@ -32,6 +33,8 @@ class AuthService {
 
                 val response = response.body()!!
 
+                Log.d("온회원가입",response.toString())
+
                 when(response.code){
                     1000 -> signUpView.onSignUpSuccess()
                     else -> signUpView.onSignUpFailure(response.code, response.message)
@@ -55,6 +58,8 @@ class AuthService {
             override fun onResponse(call: Call<AuthResponse>, response: Response<AuthResponse>) {
 
                 val response = response.body()!!
+
+                Log.d("온로그인",response.toString())
 
                 when(response.code){
                     1000 -> loginView.onLoginSuccess(response.result!!)
