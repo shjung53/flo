@@ -54,10 +54,8 @@ class LoginActivity : AppCompatActivity(), LoginView {
         binding.loginLoadingIv.visibility = View.VISIBLE
     }
 
-    override fun onLoginSuccess() {
+    override fun onLoginSuccess(auth: Auth) {
         binding.loginLoadingIv.visibility = View.GONE
-
-        val auth : Auth
 
         saveJwt(this, auth.jwt)
         saveUserIdx(this, auth.userIdx)
