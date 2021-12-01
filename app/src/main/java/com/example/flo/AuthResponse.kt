@@ -2,7 +2,7 @@ package com.example.flo
 
 import com.google.gson.annotations.SerializedName
 
-data class Auth(@SerializedName("userIdx") val userIdx: Int, @SerializedName("jwt")val jwt: String)
+data class Auth(val userIdx: Int, val jwt: String)
 
 data class AuthResponse(
     @SerializedName("isSuccess") val isSuccess: Boolean,

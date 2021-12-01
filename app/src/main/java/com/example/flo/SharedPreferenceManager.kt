@@ -11,15 +11,15 @@ fun saveJwt(context: Context, jwt: String){
     editor.apply()
 }
 
-fun saveUserIdx(context: Context, jwt: Int){
+fun saveUserIdx(context: Context, userIdx: Int){
     val spf = context.getSharedPreferences("auth", AppCompatActivity.MODE_PRIVATE)
     val editor = spf.edit()
-    editor.putInt("jwt", jwt)
+    editor.putInt("userIdx", userIdx)
     editor.apply()
 }
 
 fun getUserIdx(context: Context): Int{
     val spf = context.getSharedPreferences("auth", AppCompatActivity.MODE_PRIVATE)
 
-    return spf.getInt("userIdx", 0)
+    return spf.getInt("userIdx",0)
 }
